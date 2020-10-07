@@ -10,7 +10,7 @@ public class EmployeeRecord {
     private String fname;
     private String lname;
     private int ssn;
-    private int pnumb;
+    private String pnumb;
     private String start_time;
     private String end_time;
     
@@ -48,12 +48,12 @@ public class EmployeeRecord {
         this.ssn = ssn;
     }
     //Returns the Employee's phone number.
-    public int getPnumb(){
+    public String getPnumb(){
         return pnumb;
     }
     //Takes the Employee's phone number from the database and assigns it 
     // to pnumb. Expected phone number format with no dashes, i.e. 5555555555
-    public void setPnumb(int pnumb){
+    public void setPnumb(String pnumb){
         this.pnumb = pnumb;
     }
     //Returns the Employee's shift start time. HH:MM:SS format, i.e. 08:00:00

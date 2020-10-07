@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -25,6 +26,24 @@ public class Controller implements Initializable{
        
     protected Database data;
     
+    private void logoutAndSwitch(ActionEvent event, String fxml){
+        //closes connections to the database
+        this.getDatabase().logout();
+        
+        //switch to new scene
+        switchScene(event, fxml);
+    }
+      
+    
+    @FXML
+    protected void logout(ActionEvent event){
+       logoutAndSwitch(event, "Login.fxml");
+    }
+    
+    @FXML
+    protected void gotoDriver(ActionEvent event){
+        logoutAndSwitch(event, "DatabaseSettings.fxml");
+    }    
    
     public void setDatabase(Database data){
         this.data = data;

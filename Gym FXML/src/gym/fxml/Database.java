@@ -129,6 +129,88 @@ public class Database {
         return trainers;
     }
     
+    public List<DropDownItem> getEmpByIDs()throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("SELECT e.emp_id, e.fname, e.lname "
+                             + "FROM employee as e "
+                             + "WHERE e.emp_id");
+        ArrayList<DropDownItem> trainers = new ArrayList<DropDownItem>();                     
+        while (rs.next()) {
+           trainers.add(new DropDownItem(rs.getInt(1), Integer.toString(rs.getInt(1))+" "+rs.getString(2)+" "+rs.getString(3)));
+        }
+        rs.close();
+        stmt.close();
+        return trainers;
+    }
+    public List<DropDownItem> getEquByIDs()throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("SELECT e.equip_id, e.equip_type, e.room "
+                             + "FROM equipment as e ");
+        ArrayList<DropDownItem> equ = new ArrayList<DropDownItem>();                     
+        while (rs.next()) {
+           equ.add(new DropDownItem(rs.getInt(1), Integer.toString(rs.getInt(1))+" "+rs.getString(2)+" "+rs.getString(3)));
+        }
+        rs.close();
+        stmt.close();
+        return equ;
+    }
+    public List<DropDownItem> getClassByIDs()throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("SELECT c.class_id, c.name, c.time_slot "
+                             + "FROM class as c ");
+        ArrayList<DropDownItem> classes = new ArrayList<DropDownItem>();                     
+        while (rs.next()) {
+           classes.add(new DropDownItem(rs.getInt(1), Integer.toString(rs.getInt(1))+" "+rs.getString(2)+" "+rs.getString(3)));
+        }
+        rs.close();
+        stmt.close();
+        return classes;
+    }
+        
+    public EmployeeRecord getEmpByID(int empNo)throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("SELECT e.emp_id, e.fname, e.lname, e.ssn, e.pnum, e.start_time, e.end_time "
+                             + "FROM employee as e "
+                             + "WHERE e.emp_id="+empNo);
+        EmployeeRecord emp = new EmployeeRecord();                    
+        while (rs.next()) {
+           emp.setEmp_id(rs.getInt(1));
+           emp.setFname(rs.getString(2));
+           emp.setLname(rs.getString(3));
+           emp.setSsn(rs.getInt(4));
+           emp.setPnumb(rs.getString(5));
+           emp.setStart_time(rs.getString(6));
+           emp.setEnd_time(rs.getString(7));
+        }
+        rs.close();
+        stmt.close();
+        return emp;
+    }
+    public EquipmentRecord getEquByID(int equ_id)throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("SELECT e.equip_id, e.equip_type, e.room, e.date, e.equip_status "
+                             + "FROM equipment as e "
+                             + "WHERE e.equip_id = " + equ_id);
+        rs.next();
+        EquipmentRecord equ = new EquipmentRecord(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+        rs.close();
+        stmt.close();
+        return equ;
+    }
+    public ClassRecord getClassByID(int class_id)throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("SELECT c.* "
+                             + "FROM class as c "
+                             + "WHERE c.class_id = " + class_id);
+        rs.next();
+        ClassRecord classes = new ClassRecord(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+        rs.close();
+        stmt.close();
+        return classes;
+    }
+    
+    
+    
     public List<DropDownItem> getRooms()throws Exception{
         stmt = conn.createStatement();
         rs = stmt.executeQuery("select room_name "
@@ -142,12 +224,6 @@ public class Database {
         return classes;
     }
     
-    /*
-    get Emp
-    get Classes
-    get Equipment
-    add all the above
-    */
     /**
      * 
      * @param startTime might be empty if not selected
@@ -157,17 +233,19 @@ public class Database {
      * @param className
      * @return 
      */
-    public List<EmployeeRecord> getEmployees(String startTime, String EndTime, Boolean Supervisors, Boolean Trainers, DropDownItem className){
-        
-    }
+//    public List<EmployeeRecord> getEmployees(String startTime, String EndTime, Boolean Supervisors, Boolean Trainers, DropDownItem className){
+//        
+//    }
     public List<ClassRecord> getClasses(String cName, String time, String room_name, int emp_id){
-        
+        ArrayList<ClassRecord> list = new ArrayList<>();
+        list.add(new ClassRecord(001, "Crossfit", "08:00:00", "Jupiter"));
+        list.add(new ClassRecord(002, "Crossfit", "16:00:00", "Jupiter"));
+        list.add(new ClassRecord(003, "Crossfit", "00:00:00", "Jupiter"));
+        return list;
     }
-    public List<EquipmentRecord> getEquipment(String type, String room, String status, String maintDate){
-        
-    }
-    
-    
+//    public List<EquipmentRecord> getEquipment(String type, String room, String status, String maintDate){
+//        
+//    }    
     
     @Override
     public void finalize(){
