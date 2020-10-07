@@ -22,6 +22,8 @@ public class EmpTableController extends Controller implements Initializable {
         this.switchScene(event, "QueryPage.fxml");
     }
 
+    
+    
     /**
      * Initializes the controller class.
      */

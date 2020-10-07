@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gym.fxml.QueryPageController">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gym.fxml.QueryPageController">
    <children>
       <MenuBar fx:id="menu" layoutX="142.0" layoutY="65.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <menus>
@@ -23,115 +23,180 @@
       <TabPane layoutX="100.0" layoutY="64.0" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
         <tabs>
           <Tab text="Employees">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <SplitPane dividerPositions="0.5" layoutX="179.0" layoutY="33.0" prefHeight="333.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                 <children>
-                                    <VBox alignment="CENTER" prefHeight="331.0" prefWidth="295.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="333.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <SplitPane dividerPositions="0.33, 0.66" prefHeight="95.0" prefWidth="158.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <items>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="336.0">
                                        <children>
-                                          <TextField fx:id="eStartTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </TextField>
-                                          <TextField fx:id="eEndTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="End Time HH:MM">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </TextField>
-                                          <HBox maxWidth="218.0" prefHeight="21.0" prefWidth="218.0">
+                                          <VBox alignment="CENTER" prefHeight="331.0" prefWidth="295.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
-                                                <CheckBox fx:id="eSupCheck" mnemonicParsing="false" text="Supervisors">
-                                                   <HBox.margin>
-                                                      <Insets />
-                                                   </HBox.margin>
-                                                </CheckBox>
-                                                <CheckBox fx:id="eTrainCheck" maxWidth="218.0" mnemonicParsing="false" text="Trainers">
-                                                   <HBox.margin>
-                                                      <Insets left="10.0" />
-                                                   </HBox.margin>
-                                                </CheckBox>
+                                                <TextField fx:id="eStartTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="eEndTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="End Time HH:MM">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <HBox maxWidth="218.0" prefHeight="21.0" prefWidth="218.0">
+                                                   <children>
+                                                      <CheckBox fx:id="eSupCheck" mnemonicParsing="false" text="Supervisors">
+                                                         <HBox.margin>
+                                                            <Insets />
+                                                         </HBox.margin>
+                                                      </CheckBox>
+                                                      <CheckBox fx:id="eTrainCheck" maxWidth="218.0" mnemonicParsing="false" text="Trainers">
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" />
+                                                         </HBox.margin>
+                                                      </CheckBox>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <ComboBox fx:id="eTeaches" prefHeight="31.0" prefWidth="218.0" promptText="Teaches">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </ComboBox>
+                                                <Button fx:id="viewEmp" mnemonicParsing="false" onAction="#getEmployees" text="Get Employees">
+                                                   <VBox.margin>
+                                                      <Insets top="20.0" />
+                                                   </VBox.margin>
+                                                </Button>
                                              </children>
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </HBox>
-                                          <ComboBox fx:id="eTeaches" prefHeight="31.0" prefWidth="218.0" promptText="Teaches">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </ComboBox>
-                                          <Button fx:id="viewEmp" mnemonicParsing="false" onAction="#getEmployees" text="Get Employees">
-                                             <VBox.margin>
-                                                <Insets top="20.0" />
-                                             </VBox.margin>
-                                          </Button>
+                                          </VBox>
                                        </children>
-                                    </VBox>
-                                 </children>
-                              </AnchorPane>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="213.0" SplitPane.resizableWithParent="false">
-                                 <children>
-                                    <VBox alignment="CENTER" prefHeight="331.0" prefWidth="295.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    </AnchorPane>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="213.0" SplitPane.resizableWithParent="false">
                                        <children>
-                                          <TextField fx:id="efname" maxWidth="218.0" prefHeight="31.0" prefWidth="218.0" promptText="First Name">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </TextField>
-                                          <TextField fx:id="elname" maxWidth="218.0" prefWidth="218.0" promptText="Last Name">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </TextField>
-                                          <TextField fx:id="essn" maxWidth="218.0" prefWidth="218.0" promptText="SSN">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </TextField>
-                                          <TextField fx:id="ePnum" maxWidth="218.0" prefWidth="218.0" promptText="Phone Number">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </TextField>
-                                          <TextField fx:id="eStarTIme" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </TextField>
-                                          <TextField fx:id="eEndTime" maxWidth="218.0" prefWidth="218.0" promptText="End Time HH:MM">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </TextField>
-                                          <ComboBox fx:id="eTeachesAdd" prefHeight="31.0" prefWidth="218.0" promptText="Teaches">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </ComboBox>
-                                          <Button fx:id="addEmp" mnemonicParsing="false" text="Add Employee">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </Button>
+                                          <VBox alignment="CENTER" layoutX="-8.0" layoutY="6.0" prefHeight="331.0" prefWidth="295.0" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="-8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="6.0">
+                                             <children>
+                                                <TextField fx:id="efname" maxWidth="218.0" prefHeight="31.0" prefWidth="218.0" promptText="First Name">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="elname" maxWidth="218.0" prefWidth="218.0" promptText="Last Name">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="essn" maxWidth="218.0" prefWidth="218.0" promptText="SSN">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="ePnum" maxWidth="218.0" prefWidth="218.0" promptText="Phone Number">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="eStarTIme" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="eEndTime" maxWidth="218.0" prefWidth="218.0" promptText="End Time HH:MM">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <ComboBox fx:id="eTeachesAdd" prefHeight="31.0" prefWidth="218.0" promptText="Teaches">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </ComboBox>
+                                                <Button fx:id="addEmp" mnemonicParsing="false" text="Add Employee">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </Button>
+                                             </children>
+                                          </VBox>
                                        </children>
-                                    </VBox>
-                                 </children>
-                              </AnchorPane>
-                          </items>
-                        </SplitPane>
+                                    </AnchorPane>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="329.0" prefWidth="623.0">
+                                       <children>
+                                          <VBox alignment="CENTER" layoutX="-2.0" prefHeight="431.0" prefWidth="335.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <HBox alignment="CENTER" prefHeight="30.0" prefWidth="218.0">
+                                                   <children>
+                                                      <ComboBox fx:id="eID" prefHeight="31.0" prefWidth="148.0" promptText="Employee" />
+                                                      <Button mnemonicParsing="false" onAction="#getEmpByID" prefHeight="31.0" prefWidth="60.0" text="Select">
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" />
+                                                         </HBox.margin>
+                                                      </Button>
+                                                   </children>
+                                                </HBox>
+                                                <TextField fx:id="efnameUpdate" maxWidth="218.0" prefHeight="31.0" prefWidth="218.0" promptText="First Name">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="elnameUpdate" maxWidth="218.0" prefWidth="218.0" promptText="Last Name">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="essnUpdate" maxWidth="218.0" prefWidth="218.0" promptText="SSN">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="ePnumUpdate" maxWidth="218.0" prefWidth="218.0" promptText="Phone Number">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="eStarTImeUpdate" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="eEndTimeUpdate" maxWidth="218.0" prefWidth="218.0" promptText="End Time HH:MM">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextField>
+                                                <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
+                                                   <children>
+                                                      <Button mnemonicParsing="false" text="Update Employee" />
+                                                      <Button mnemonicParsing="false" text="Delete">
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" />
+                                                         </HBox.margin>
+                                                      </Button>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                </items>
+                              </SplitPane>
+                           </children>
+                        </AnchorPane>
                      </children>
                   </AnchorPane>
-            </content>
+               </content>
           </Tab>
           <Tab text="Classes">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <SplitPane dividerPositions="0.5" layoutX="179.0" layoutY="33.0" prefHeight="333.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <SplitPane dividerPositions="0.33, 0.66" layoutX="179.0" layoutY="33.0" prefHeight="333.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <items>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
@@ -141,7 +206,7 @@
                                           <TextField fx:id="cTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="TIme Slot HH:MM" />
                                           <ComboBox fx:id="cRoom" prefHeight="31.0" prefWidth="218.0" promptText="Room" />
                                           <ComboBox fx:id="cTeachers" prefHeight="31.0" prefWidth="218.0" promptText="Taught by" />
-                                          <Button fx:id="viewClass" mnemonicParsing="false" text="Get Class" />
+                                          <Button fx:id="viewClass" mnemonicParsing="false" onAction="#getClasses" text="Get Class" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -174,6 +239,52 @@
                                     </VBox>
                                  </children>
                               </AnchorPane>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="213.0">
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="331.0" prefWidth="295.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
+                                             <children>
+                                                <ComboBox fx:id="cID" maxWidth="218.0" prefWidth="148.0" promptText="Class Ids" />
+                                                <Button mnemonicParsing="false" onAction="#getClassByID" text="Select">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                             </children>
+                                          </HBox>
+                                          <TextField fx:id="cNameUpdate" maxWidth="218.0" prefHeight="31.0" prefWidth="218.0" promptText="Class Name">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <TextField fx:id="cTimeUpdate" maxWidth="218.0" prefWidth="218.0" promptText="TIme Slot HH:MM">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <ComboBox fx:id="cRoomUpdate" maxWidth="218.0" prefWidth="218.0" promptText="Room">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </ComboBox>
+                                          <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
+                                             <children>
+                                                <Button fx:id="addClass1" alignment="CENTER" mnemonicParsing="false" text="Update" />
+                                                <Button mnemonicParsing="false" text="Delete">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
                            </items>
                         </SplitPane>
                      </children>
@@ -184,44 +295,104 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <VBox alignment="CENTER" prefHeight="333.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <ComboBox fx:id="equType" layoutX="49.0" layoutY="119.0" prefHeight="31.0" prefWidth="218.0" promptText="Type">
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                              </ComboBox>
-                              <ComboBox fx:id="equRoom" prefHeight="31.0" prefWidth="218.0" promptText="Room">
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                              </ComboBox>
-                              <ComboBox fx:id="equStatus" prefHeight="31.0" prefWidth="218.0" promptText="Status">
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                              </ComboBox>
-                              <DatePicker fx:id="equMaint" promptText="Mantanace Date">
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                              </DatePicker>
-                              <HBox maxWidth="218.0" prefHeight="31.0" prefWidth="218.0">
+                        <SplitPane dividerPositions="0.5" prefHeight="433.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
-                                    <Button fx:id="addEquipt" alignment="CENTER" mnemonicParsing="false" text="Add" />
-                                    <Button fx:id="viewEquipt" mnemonicParsing="false" text="View">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                    </Button>
+                                    <VBox alignment="CENTER" prefHeight="431.0" prefWidth="495.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <ComboBox fx:id="equType" editable="true" layoutX="49.0" layoutY="119.0" prefHeight="31.0" prefWidth="218.0" promptText="Type">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </ComboBox>
+                                          <ComboBox fx:id="equRoom" prefHeight="31.0" prefWidth="218.0" promptText="Room">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </ComboBox>
+                                          <ComboBox fx:id="equStatus" prefHeight="31.0" prefWidth="218.0" promptText="Status">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </ComboBox>
+                                          <DatePicker fx:id="equMaint" promptText="Mantanace Date">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </DatePicker>
+                                          <HBox maxWidth="218.0" prefHeight="31.0" prefWidth="218.0">
+                                             <children>
+                                                <Button fx:id="addEquipt" alignment="CENTER" mnemonicParsing="false" text="Add" />
+                                                <Button fx:id="viewEquipt" mnemonicParsing="false" text="View">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
                                  </children>
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </children></AnchorPane>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="431.0" prefWidth="495.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
+                                             <children>
+                                                <ComboBox fx:id="equID" prefWidth="148.0" promptText="Equipment ID" />
+                                                <Button mnemonicParsing="false" onAction="#getEquByID" text="Select">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                             </children>
+                                          </HBox>
+                                          <ComboBox fx:id="equTypeUpdate" editable="true" layoutX="49.0" layoutY="119.0" prefHeight="31.0" prefWidth="218.0" promptText="Type">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </ComboBox>
+                                          <ComboBox fx:id="equRoomUpdate" prefHeight="31.0" prefWidth="218.0" promptText="Room">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </ComboBox>
+                                          <ComboBox fx:id="equStatusUpdate" prefHeight="31.0" prefWidth="218.0" promptText="Status">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </ComboBox>
+                                          <TextField fx:id="equMaintDateUpdate" maxWidth="218.0" prefWidth="218.0" promptText="Next Maintanace">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <HBox maxWidth="218.0" prefHeight="31.0" prefWidth="218.0">
+                                             <children>
+                                                <Button fx:id="addEquipt1" alignment="CENTER" mnemonicParsing="false" text="Update" />
+                                                <Button fx:id="viewEquipt1" mnemonicParsing="false" text="Delete">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
               </content>
             </Tab>
         </tabs>

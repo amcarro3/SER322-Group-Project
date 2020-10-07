@@ -30,118 +30,36 @@ import javafx.stage.Stage;
  */
 public class QueryPageController extends Controller implements Initializable {
     
-    @FXML
-    private ComboBox<DropDownItem> cRoom;
-
-    @FXML
-    private ComboBox<DropDownItem> equRoom;
-
-    @FXML
-    private Button addEquipt;
-
-    @FXML
-    private CheckBox eTrainCheck;
-
-    @FXML
-    private TextField efname;
-
-    @FXML
-    private TextField cNameGet;
-
-    @FXML
-    private TextField cTimeSet;
-
-    @FXML
-    private ComboBox<DropDownItem> equStatus;
-
-    @FXML
-    private TextField elname;
-
-    @FXML
-    private ComboBox<DropDownItem> cTeachers;
-
-    @FXML
-    private Button addEmp;
-
-    @FXML
-    private DatePicker equMaint;
-
-    @FXML
-    private TextField cNameSet;
-
-    @FXML
-    private TextField cTimeGet;
-
-    @FXML
-    private Button addClass;
-
-    @FXML
-    private TextField eStartTimeGet;
-
-    @FXML
-    private TextField eEndTime;
-
-    @FXML
-    private ComboBox<DropDownItem> equType;
-
-    @FXML
-    private CheckBox eSupCheck;
-
-    @FXML
-    private TextField essn;
-
-    @FXML
-    private ComboBox<DropDownItem> eTeachesAdd;
-
-    @FXML
-    private MenuBar menu;
-
-    @FXML
-    private TextField eStarTIme;
-
-    @FXML
-    private TextField ePnum;
-
-    @FXML
-    private Button viewEmp;
-
-    @FXML
-    private TextField eEndTimeGet;
-
-    @FXML
-    private MenuItem databaseDriver;
-
-    @FXML
-    private Button viewClass;
-
-    @FXML
-    private Button viewEquipt;
-
-    @FXML
-    private ComboBox<DropDownItem> eTeaches;
-    
-    @FXML
-    private ComboBox<DropDownItem> cRoomSet;
-    
-     
-    private void logoutAndSwitch(ActionEvent event, String fxml){
-        //closes connections to the database
-        this.getDatabase().logout();
-        
-        //switch to new scene
-        switchScene(event, fxml);
-    }
-      
-    
-    @FXML
-    private void logout(ActionEvent event){
-       logoutAndSwitch(event, "Login.fxml");
-    }
-    
-    @FXML
-    private void gotoDriver(ActionEvent event){
-        logoutAndSwitch(event, "DatabaseSettings.fxml");
-    }
+    @FXML private ComboBox<DropDownItem> cRoom, cTeachers;
+    @FXML private Button addEquipt, addEmp;
+    @FXML private CheckBox eTrainCheck, eSupCheck;
+    @FXML private TextField efname, elname, cNameGet, cTimeSet;
+    @FXML private ComboBox<DropDownItem> equStatus, equRoom;
+    @FXML private DatePicker equMaint;
+    @FXML private TextField cNameSet;
+    @FXML private TextField cTimeGet;
+    @FXML private Button addClass;
+    @FXML private TextField eStartTimeGet;
+    @FXML private TextField eEndTime;
+    @FXML private ComboBox<DropDownItem> equType;
+    @FXML private TextField essn;
+    @FXML private ComboBox<DropDownItem> eTeachesAdd;
+    @FXML private MenuBar menu;
+    @FXML private TextField eStarTIme;
+    @FXML private TextField ePnum;
+    @FXML private Button viewEmp;
+    @FXML private TextField eEndTimeGet;
+    @FXML private MenuItem databaseDriver;
+    @FXML private Button viewClass;
+    @FXML private Button viewEquipt;
+    @FXML private ComboBox<DropDownItem> eTeaches;    
+    @FXML private ComboBox<DropDownItem> cRoomSet;    
+    @FXML private ComboBox<DropDownItem> eID, equID;    
+    @FXML private TextField efnameUpdate, elnameUpdate, essnUpdate, ePnumUpdate, eStarTImeUpdate, eEndTimeUpdate;    
+    @FXML private TextField cNameUpdate, cTimeUpdate;    
+    @FXML private ComboBox<DropDownItem> cRoomUpdate, cID;    
+    @FXML private ComboBox<DropDownItem> equTypeUpdate, equRoomUpdate, equStatusUpdate;
+    @FXML private TextField equMaintDateUpdate;
     
     @Override
     public void setDatabase(Database data){
@@ -170,7 +88,13 @@ public class QueryPageController extends Controller implements Initializable {
             equType.getItems().clear();
             equRoom.getItems().clear();
             equStatus.getItems().clear();
-            
+            eID.getItems().clear();
+            equID.getItems().clear();
+            equTypeUpdate.getItems().clear();
+            equRoomUpdate.getItems().clear();
+            equStatusUpdate.getItems().clear();
+            cID.getItems().clear();
+            cRoomUpdate.getItems().clear();
             
             eTeaches.setItems(classes);
             eTeachesAdd.setItems(FXCollections.observableList(data.getClassIds()));
@@ -180,6 +104,13 @@ public class QueryPageController extends Controller implements Initializable {
             equType.setItems(FXCollections.observableList(data.getEquTypes()));
             equRoom.setItems(rooms);
             equStatus.setItems(FXCollections.observableList(data.getEquStatuses()));
+            eID.setItems(FXCollections.observableList(data.getEmpByIDs()));
+            equID.setItems(FXCollections.observableList(data.getEquByIDs()));
+            equTypeUpdate.setItems(FXCollections.observableList(data.getEquTypes()));
+            equRoomUpdate.setItems(rooms);
+            equStatusUpdate.setItems(FXCollections.observableList(data.getEquStatuses()));
+            cID.setItems(FXCollections.observableList(data.getClassByIDs()));
+            cRoomUpdate.setItems(rooms);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -191,33 +122,133 @@ public class QueryPageController extends Controller implements Initializable {
             System.exit(0);
         }
     } 
+    @FXML private void getEmpByID(){
+        try{
+            
+            DropDownItem id = eID.getValue();
+            if(id==null) {
+                inform("Please Select Employee");
+                return;
+            }
+            int emp_id = id.getId();
+            EmployeeRecord emp = data.getEmpByID(emp_id);
+            setDatabase(data);
+            eID.setValue(id);
+            efnameUpdate.setText(emp.getFname());
+            elnameUpdate.setText(emp.getLname());
+            essnUpdate.setText(Integer.toString(emp.getSsn()));
+            ePnumUpdate.setText(emp.getPnumb());
+            eStarTImeUpdate.setText(emp.getStart_time());
+            eEndTimeUpdate.setText(emp.getEnd_time());
+            
+        }catch(Exception e){
+            e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Error");
+            a.setContentText(e.getMessage());
+            a.setHeaderText(null);
+            a.showAndWait();
+            System.exit(0);
+        }  
+        
+    }
+    @FXML private void getClassByID(){
+        try{
+            
+            DropDownItem id = cID.getValue();
+            if(id==null) {
+                inform("Please Select Employee");
+                return;
+            }
+            int class_id = id.getId();
+            ClassRecord cls = data.getClassByID(class_id);
+            setDatabase(data);
+            cID.setValue(id);
+            cNameUpdate.setText(cls.getName());
+            cTimeUpdate.setText(cls.getTime());
+            setComboBox(cRoomUpdate, cls.getRoom());
+            
+        }catch(Exception e){
+            e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Error");
+            a.setContentText(e.getMessage());
+            a.setHeaderText(null);
+            a.showAndWait();
+            System.exit(0);
+        }  
+        
+    }
+    @FXML private void getEquByID(){
+        try{
+            
+            DropDownItem id = equID.getValue();
+            if(id==null) {
+                inform("Please Select Employee");
+                return;
+            }
+            int emp_id = id.getId();
+            EquipmentRecord equ = data.getEquByID(id.getId());
+            setDatabase(data);
+            equID.setValue(id);
+            setComboBox(equTypeUpdate, equ.getType());
+            setComboBox(equRoomUpdate, equ.getRoom());
+            setComboBox(equStatusUpdate, equ.getStatus());
+            equMaintDateUpdate.setText(equ.getDate());
+            
+            
+            
+            
+        }catch(Exception e){
+            e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Error");
+            a.setContentText(e.getMessage());
+            a.setHeaderText(null);
+            a.showAndWait();
+            System.exit(0);
+        }      
+    }
     
+    private void setComboBox(ComboBox<DropDownItem> box, int id){
+        ObservableList<DropDownItem> items = box.getItems();
+        for(int i=0; i<items.size();i++){
+            if(items.get(i).getId()==id){
+                box.setValue(items.get(i));
+                return;
+            }
+        }
+    }
+    private void setComboBox(ComboBox<DropDownItem> box, String string){
+        ObservableList<DropDownItem> items = box.getItems();
+        for(int i=0; i<items.size();i++){
+            if(items.get(i).getName().compareTo(string)==0){
+                box.setValue(items.get(i));
+                return;
+            }
+        }
+    }
+    private void inform(String message){
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle(null);
+        a.setContentText(message);
+        a.setHeaderText(null);
+        a.showAndWait();
+    }
     
+   
     @FXML
     public void getEmployees(ActionEvent event){
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("EmpTable.fxml"));
-        try{loader.load();}catch(IOException ioe){ioe.printStackTrace();}
-        Parent parent = loader.getRoot();
+       // data.getEmployees(eStartTimeGet.getText(), eEndTimeGet.getText(), eSupCheck.isSelected(),eTrainCheck.isSelected(), eTeaches.getValue());
 
-        //pass databse object to Controller
-        EmpTableController con = loader.getController();
-        con.setDatabase(data);
-        con.setTable(eStartTimeGet.getText(), eEndTimeGet.getText(), eSupCheck.isSelected(),eTrainCheck.isSelected(), eTeaches.getValue());
-
-        //get main stage
-        Stage window;
-        if(event.getTarget() instanceof MenuItem){
-            window = (Stage) ((MenuItem) event.getTarget()).getParentPopup().getOwnerWindow();
-        }else{
-            window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        }
+        
         
 
-        //set stage to login
-        Scene scene = new Scene(parent);
-        window.setScene(scene);
-        window.show();
+        }
+    
+    @FXML
+    public void getClasses(ActionEvent event){
+        data.getClasses(cTimeGet.getText(), cTimeGet.getText(), cRoom.getValue().getName(), cTeachers.getValue().getId());
     }
     
     /**

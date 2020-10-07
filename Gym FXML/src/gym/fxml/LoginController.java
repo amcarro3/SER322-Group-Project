@@ -54,11 +54,6 @@ public class LoginController extends Controller implements Initializable {
         
     }
     
-    @FXML
-    private void gotoDriver(ActionEvent event){
-        switchScene(event, "DatabaseDriver.fxml");
-    }   
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
