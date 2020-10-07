@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  */
 public class Controller implements Initializable{
        
-    private Database data;
+    protected Database data;
     
    
     public void setDatabase(Database data){
