@@ -316,7 +316,6 @@ public class QueryPageController extends Controller implements Initializable {
                 equMaintDateUpdate.clear();
                 return;
             }
-            int emp_id = id.getId();
             EquipmentRecord equ = data.getEquByID(id.getId());
             setDatabase(data);
             equID.setValue(id);

@@ -238,7 +238,7 @@ public class Database {
         stmt = conn.createStatement();
         rs = stmt.executeQuery("SELECT * "
                              + "FROM conducts as c "
-                             + "WHERE c.emp_id="+emp_id);
+                             + "WHERE c.emp_id="+emp_id+" and c.class_id="+class_id);
         return rs.next();
     }
     public void updateConducts(String emp_id, String class_id, Boolean add)throws Exception{
