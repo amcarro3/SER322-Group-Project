@@ -57,7 +57,8 @@ public class QueryPageController extends Controller implements Initializable {
     @FXML private ComboBox<DropDownItem> eID, equID;    
     @FXML private TextField efnameUpdate, elnameUpdate, essnUpdate, ePnumUpdate, eStarTImeUpdate, eEndTimeUpdate;    
     @FXML private TextField cNameUpdate, cTimeUpdate;    
-    @FXML private ComboBox<DropDownItem> cRoomUpdate, cID;    
+    @FXML private ComboBox<DropDownItem> cRoomUpdate, cID, eSID;
+    @FXML private ComboBox<String> skills;
     @FXML private ComboBox<DropDownItem> equTypeUpdate, equRoomUpdate, equStatusUpdate;
     @FXML private TextField equMaintDateUpdate;
     
@@ -95,6 +96,8 @@ public class QueryPageController extends Controller implements Initializable {
             equStatusUpdate.getItems().clear();
             cID.getItems().clear();
             cRoomUpdate.getItems().clear();
+            eSID.getItems().clear();
+            skills.getItems().clear();
             
             eTeaches.setItems(classes);
             eTeachesAdd.setItems(FXCollections.observableList(data.getClassIds()));
@@ -111,6 +114,8 @@ public class QueryPageController extends Controller implements Initializable {
             equStatusUpdate.setItems(FXCollections.observableList(data.getEquStatuses()));
             cID.setItems(FXCollections.observableList(data.getClassByIDs()));
             cRoomUpdate.setItems(rooms);
+            eSID.setItems(FXCollections.observableList(data.getEmpByIDs()));
+            
         }
         catch (Exception e){
             e.printStackTrace();
@@ -194,11 +199,7 @@ public class QueryPageController extends Controller implements Initializable {
             setComboBox(equTypeUpdate, equ.getType());
             setComboBox(equRoomUpdate, equ.getRoom());
             setComboBox(equStatusUpdate, equ.getStatus());
-            equMaintDateUpdate.setText(equ.getDate());
-            
-            
-            
-            
+            equMaintDateUpdate.setText(equ.getDate());            
         }catch(Exception e){
             e.printStackTrace();
             Alert a = new Alert(Alert.AlertType.ERROR);
@@ -209,7 +210,26 @@ public class QueryPageController extends Controller implements Initializable {
             System.exit(0);
         }      
     }
-    
+    @FXML private void getSkillsByID(){
+        try{
+            
+            DropDownItem id = eSID.getValue();
+            if(id==null) {
+                inform("Please Select Employee");
+                return;
+            }
+            skills.setItems(FXCollections.observableList(data.getSkillsByIDs(id.getId())));                     
+        }catch(Exception e){
+            e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Error");
+            a.setContentText(e.getMessage());
+            a.setHeaderText(null);
+            a.showAndWait();
+            System.exit(0);
+        }      
+    }
+     
     private void setComboBox(ComboBox<DropDownItem> box, int id){
         ObservableList<DropDownItem> items = box.getItems();
         for(int i=0; i<items.size();i++){
@@ -235,9 +255,54 @@ public class QueryPageController extends Controller implements Initializable {
         a.setHeaderText(null);
         a.showAndWait();
     }
+    private void error(String message){
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setTitle(null);
+        a.setContentText(message);
+        a.setHeaderText(null);
+        a.showAndWait();
+    }
     
-   
-    @FXML
+    @FXML private void deleteEmployee(){
+        try{
+            data.deleteEmployee(eID.getValue().getId());
+            setDatabase(data);
+        }catch(Exception e){
+            e.printStackTrace();
+            error(e.getMessage());
+        }
+    }   
+    @FXML private void deleteClass(){
+        try{
+            data.deleteClass(cID.getValue().getId());
+            setDatabase(data);
+        }catch(Exception e){
+            e.printStackTrace();
+            error(e.getMessage());
+        }
+    }
+    @FXML private void deleteEquip(){
+        try{
+            data.deleteEquip(equID.getValue().getId());
+            setDatabase(data);
+        }catch(Exception e){
+            e.printStackTrace();
+            error(e.getMessage());
+        }
+    }
+    @FXML private void deleteSkill(){
+        try{
+            if(eSID.getValue()==null||skills.getValue()==null) {
+                error("Please select employee, skill combo");
+                return;
+            }
+            data.deleteSkill(eSID.getValue().getId(), skills.getValue());
+            getSkillsByID();
+        }catch(Exception e){
+            e.printStackTrace();
+            error(e.getMessage());
+        }
+    }
     public void getEmployees(ActionEvent event){
        // data.getEmployees(eStartTimeGet.getText(), eEndTimeGet.getText(), eSupCheck.isSelected(),eTrainCheck.isSelected(), eTeaches.getValue());
 

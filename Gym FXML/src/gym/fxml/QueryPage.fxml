@@ -32,47 +32,95 @@
                                 <items>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="336.0">
                                        <children>
-                                          <VBox alignment="CENTER" prefHeight="331.0" prefWidth="295.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                             <children>
-                                                <TextField fx:id="eStartTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM">
-                                                   <VBox.margin>
-                                                      <Insets top="10.0" />
-                                                   </VBox.margin>
-                                                </TextField>
-                                                <TextField fx:id="eEndTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="End Time HH:MM">
-                                                   <VBox.margin>
-                                                      <Insets top="10.0" />
-                                                   </VBox.margin>
-                                                </TextField>
-                                                <HBox maxWidth="218.0" prefHeight="21.0" prefWidth="218.0">
+                                          <SplitPane dividerPositions="0.6" orientation="VERTICAL" prefHeight="431.0" prefWidth="325.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <items>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                                    <children>
-                                                      <CheckBox fx:id="eSupCheck" mnemonicParsing="false" text="Supervisors">
-                                                         <HBox.margin>
-                                                            <Insets />
-                                                         </HBox.margin>
-                                                      </CheckBox>
-                                                      <CheckBox fx:id="eTrainCheck" maxWidth="218.0" mnemonicParsing="false" text="Trainers">
-                                                         <HBox.margin>
-                                                            <Insets left="10.0" />
-                                                         </HBox.margin>
-                                                      </CheckBox>
+                                                      <VBox alignment="CENTER" prefHeight="331.0" prefWidth="295.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <children>
+                                                            <TextField fx:id="eStartTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM">
+                                                               <VBox.margin>
+                                                                  <Insets top="10.0" />
+                                                               </VBox.margin>
+                                                            </TextField>
+                                                            <TextField fx:id="eEndTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="End Time HH:MM">
+                                                               <VBox.margin>
+                                                                  <Insets top="10.0" />
+                                                               </VBox.margin>
+                                                            </TextField>
+                                                            <HBox maxWidth="218.0" prefHeight="21.0" prefWidth="218.0">
+                                                               <children>
+                                                                  <CheckBox fx:id="eSupCheck" mnemonicParsing="false" text="Supervisors">
+                                                                     <HBox.margin>
+                                                                        <Insets />
+                                                                     </HBox.margin>
+                                                                  </CheckBox>
+                                                                  <CheckBox fx:id="eTrainCheck" maxWidth="218.0" mnemonicParsing="false" text="Trainers">
+                                                                     <HBox.margin>
+                                                                        <Insets left="10.0" />
+                                                                     </HBox.margin>
+                                                                  </CheckBox>
+                                                               </children>
+                                                               <VBox.margin>
+                                                                  <Insets top="10.0" />
+                                                               </VBox.margin>
+                                                            </HBox>
+                                                            <ComboBox fx:id="eTeaches" prefHeight="31.0" prefWidth="218.0" promptText="Teaches">
+                                                               <VBox.margin>
+                                                                  <Insets top="10.0" />
+                                                               </VBox.margin>
+                                                            </ComboBox>
+                                                            <Button fx:id="viewEmp" mnemonicParsing="false" onAction="#getEmployees" text="Get Employees">
+                                                               <VBox.margin>
+                                                                  <Insets top="20.0" />
+                                                               </VBox.margin>
+                                                            </Button>
+                                                         </children>
+                                                      </VBox>
                                                    </children>
-                                                   <VBox.margin>
-                                                      <Insets top="10.0" />
-                                                   </VBox.margin>
-                                                </HBox>
-                                                <ComboBox fx:id="eTeaches" prefHeight="31.0" prefWidth="218.0" promptText="Teaches">
-                                                   <VBox.margin>
-                                                      <Insets top="10.0" />
-                                                   </VBox.margin>
-                                                </ComboBox>
-                                                <Button fx:id="viewEmp" mnemonicParsing="false" onAction="#getEmployees" text="Get Employees">
-                                                   <VBox.margin>
-                                                      <Insets top="20.0" />
-                                                   </VBox.margin>
-                                                </Button>
-                                             </children>
-                                          </VBox>
+                                                </AnchorPane>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                   <children>
+                                                      <VBox alignment="CENTER" prefHeight="433.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <children>
+                                                            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="218.0">
+                                                               <children>
+                                                                  <ComboBox fx:id="eSID" prefHeight="31.0" prefWidth="148.0" promptText="Employee" />
+                                                                  <Button mnemonicParsing="false" onAction="#getSkillsByID" prefHeight="31.0" prefWidth="60.0" text="Select">
+                                                                     <HBox.margin>
+                                                                        <Insets left="10.0" />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                               </children>
+                                                            </HBox>
+                                                            <ComboBox fx:id="skills" editable="true" prefWidth="218.0" promptText="Skill">
+                                                               <VBox.margin>
+                                                                  <Insets top="10.0" />
+                                                               </VBox.margin>
+                                                            </ComboBox>
+                                                            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
+                                                               <children>
+                                                                  <Button mnemonicParsing="false" text="Add Skill">
+                                                                     <HBox.margin>
+                                                                        <Insets left="10.0" />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                                  <Button mnemonicParsing="false" onAction="#deleteSkill" text="Delete">
+                                                                     <HBox.margin>
+                                                                        <Insets left="10.0" />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                               </children>
+                                                               <VBox.margin>
+                                                                  <Insets top="10.0" />
+                                                               </VBox.margin>
+                                                            </HBox>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </AnchorPane>
+                                            </items>
+                                          </SplitPane>
                                        </children>
                                     </AnchorPane>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="213.0" SplitPane.resizableWithParent="false">
@@ -109,6 +157,18 @@
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
                                                 </TextField>
+                                                <HBox maxWidth="218.0" prefHeight="21.0" prefWidth="218.0">
+                                                   <children>
+                                                      <CheckBox fx:id="eSupCheck1" mnemonicParsing="false" text="Supervisor">
+                                                         <HBox.margin>
+                                                            <Insets />
+                                                         </HBox.margin>
+                                                      </CheckBox>
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </HBox>
                                                 <ComboBox fx:id="eTeachesAdd" prefHeight="31.0" prefWidth="218.0" promptText="Teaches">
                                                    <VBox.margin>
                                                       <Insets top="10.0" />
@@ -169,8 +229,12 @@
                                                 </TextField>
                                                 <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Update Employee" />
-                                                      <Button mnemonicParsing="false" text="Delete">
+                                                      <Button mnemonicParsing="false" text="Update Employee">
+                                                         <HBox.margin>
+                                                            <Insets left="10.0" />
+                                                         </HBox.margin>
+                                                      </Button>
+                                                      <Button mnemonicParsing="false" onAction="#deleteEmployee" text="Delete">
                                                          <HBox.margin>
                                                             <Insets left="10.0" />
                                                          </HBox.margin>
@@ -271,7 +335,7 @@
                                           <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
                                              <children>
                                                 <Button fx:id="addClass1" alignment="CENTER" mnemonicParsing="false" text="Update" />
-                                                <Button mnemonicParsing="false" text="Delete">
+                                                <Button mnemonicParsing="false" onAction="#deleteClass" text="Delete">
                                                    <HBox.margin>
                                                       <Insets left="10.0" />
                                                    </HBox.margin>
@@ -375,7 +439,7 @@
                                           <HBox maxWidth="218.0" prefHeight="31.0" prefWidth="218.0">
                                              <children>
                                                 <Button fx:id="addEquipt1" alignment="CENTER" mnemonicParsing="false" text="Update" />
-                                                <Button fx:id="viewEquipt1" mnemonicParsing="false" text="Delete">
+                                                <Button mnemonicParsing="false" onAction="#deleteEquip" text="Delete">
                                                    <HBox.margin>
                                                       <Insets left="10.0" />
                                                    </HBox.margin>

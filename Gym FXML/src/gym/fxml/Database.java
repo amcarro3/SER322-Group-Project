@@ -7,7 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * Controls database connections and queries
@@ -73,8 +74,7 @@ public class Database {
         rs.close();
         stmt.close();
         return classes;
-    }
-    
+    }    
     public List<DropDownItem> getEquStatuses() throws Exception{
         stmt = conn.createStatement();
         rs = stmt.executeQuery("select distinct equip_status "
@@ -86,8 +86,7 @@ public class Database {
         rs.close();
         stmt.close();
         return classes;
-    }
-    
+    }    
     public List<DropDownItem> getClasses() throws Exception{
         stmt = conn.createStatement();
         rs = stmt.executeQuery("select distinct c.name "
@@ -99,22 +98,20 @@ public class Database {
         rs.close();
         stmt.close();
         return classes;
-    }
-    
+    }    
     public List<DropDownItem> getClassIds() throws Exception{
         stmt = conn.createStatement();
-        rs = stmt.executeQuery("select distinct c.class_id, c.name "
+        rs = stmt.executeQuery("select distinct c.class_id, c.name, c.time_slot "
                              + "from class as c");
         ArrayList<DropDownItem> classes = new ArrayList<DropDownItem>();                     
         while (rs.next()) {
            int id = rs.getInt(1);
-           classes.add(new DropDownItem(id, Integer.toString(id)+" "+rs.getString(2)));
+           classes.add(new DropDownItem(id, Integer.toString(id)+" "+rs.getString(2)+" "+rs.getString(3)));
         }
         rs.close();
         stmt.close();
         return classes;
-    }
-    
+    }    
     public List<DropDownItem> getTrainers()throws Exception{
         stmt = conn.createStatement();
         rs = stmt.executeQuery("SELECT e.emp_id, e.fname, e.lname "
@@ -127,6 +124,18 @@ public class Database {
         rs.close();
         stmt.close();
         return trainers;
+    }
+    public List<DropDownItem> getRooms()throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("select room_name "
+                             + "from room");
+        ArrayList<DropDownItem> classes = new ArrayList<DropDownItem>();
+        while (rs.next()) {
+           classes.add(new DropDownItem(rs.getString(1)));
+        }
+        rs.close();
+        stmt.close();
+        return classes;
     }
     
     public List<DropDownItem> getEmpByIDs()throws Exception{
@@ -165,6 +174,19 @@ public class Database {
         rs.close();
         stmt.close();
         return classes;
+    }
+    public List<String> getSkillsByIDs(int emp_id) throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("SELECT s.skill "
+                             + "FROM skills as s "
+                             + "WHERE s.emp_id="+emp_id);
+        ArrayList<String> skills = new ArrayList<>();                     
+        while (rs.next()) {
+           skills.add(rs.getString(1));
+        }
+        rs.close();
+        stmt.close();
+        return skills;
     }
         
     public EmployeeRecord getEmpByID(int empNo)throws Exception{
@@ -209,20 +231,95 @@ public class Database {
         return classes;
     }
     
-    
-    
-    public List<DropDownItem> getRooms()throws Exception{
-        stmt = conn.createStatement();
-        rs = stmt.executeQuery("select room_name "
-                             + "from room");
-        ArrayList<DropDownItem> classes = new ArrayList<DropDownItem>();
-        while (rs.next()) {
-           classes.add(new DropDownItem(rs.getString(1)));
-        }
-        rs.close();
-        stmt.close();
-        return classes;
+    /**
+     * @author Anthony
+     */   
+    public void deleteEmployee(int emp_id) throws Exception{
+        String query = "DELETE FROM skills "
+                + "WHERE emp_id=?";
+	pstmt = conn.prepareStatement(query);
+	pstmt.setInt(1, emp_id);
+        pstmt.execute();
+        query = "DELETE FROM conducts "
+                + "WHERE emp_id=?";
+	pstmt = conn.prepareStatement(query);
+	pstmt.setInt(1, emp_id);
+        pstmt.execute();
+        query = "DELETE FROM supervisor "
+                + "WHERE emp_id=?";
+	pstmt = conn.prepareStatement(query);
+	pstmt.setInt(1, emp_id);
+        pstmt.execute();
+        query = "DELETE FROM trainer "
+                + "WHERE emp_id=?";
+	pstmt = conn.prepareStatement(query);
+	pstmt.setInt(1, emp_id);
+        pstmt.execute();
+        query = "DELETE FROM employee "
+                + "WHERE emp_id=?";
+	pstmt = conn.prepareStatement(query);
+	pstmt.setInt(1, emp_id);
+        pstmt.execute();
+        
+	Alert notice = new Alert (AlertType.INFORMATION);
+	notice.setTitle("Delete Status");
+	notice.setHeaderText(null);
+	notice.setContentText("Employee was deleted!");
+	notice.showAndWait();
+	
+        conn.commit();
+	pstmt.close();
     }
+    /**
+     * @author Anthony
+     */   
+    public void deleteEquip(int equip_id) throws Exception{
+        String query = "DELETE from equipment where equip_id=?";
+	pstmt = conn.prepareStatement(query);
+	pstmt.setInt(1, equip_id);
+        pstmt.execute();
+        conn.commit();
+	Alert notice = new Alert (AlertType.INFORMATION);
+	notice.setTitle("Delete Status");
+	notice.setHeaderText(null);
+	notice.setContentText("Equiptment was deleted!");
+	notice.showAndWait();	
+	pstmt.close();
+    }
+    /**
+     * @author Anthony
+     */   
+    public void deleteClass(int class_id) throws Exception{
+        String query = "DELETE from conducts Where class_id=?";
+	pstmt = conn.prepareStatement(query);
+	pstmt.setInt(1, class_id);
+        pstmt.execute();
+        query = "DELETE from class Where class_id=?";
+	pstmt = conn.prepareStatement(query);
+	pstmt.setInt(1, class_id);
+        pstmt.execute();
+        conn.commit();
+	Alert notice = new Alert (AlertType.INFORMATION);
+	notice.setTitle("Delete Status");
+	notice.setHeaderText(null);
+	notice.setContentText("Class was deleted!");
+	notice.showAndWait();	
+	pstmt.close();
+    }
+    public void deleteSkill(int emp_id, String skill) throws Exception{
+        String query = "DELETE from skills Where emp_id=? AND skill=?";
+	pstmt = conn.prepareStatement(query);
+	pstmt.setInt(1, emp_id);
+        pstmt.setString(2, skill);
+        pstmt.execute();
+        conn.commit();
+        Alert notice = new Alert (AlertType.INFORMATION);
+	notice.setTitle("Delete Status");
+	notice.setHeaderText(null);
+	notice.setContentText("skill was deleted!");
+	notice.showAndWait();	
+	pstmt.close();
+    }    
     
     /**
      * 
