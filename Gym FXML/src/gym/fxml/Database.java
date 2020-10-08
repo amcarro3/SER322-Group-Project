@@ -605,6 +605,30 @@ public class Database {
         else return new LinkedList<ClassRecord>();
 
     }
+    
+    public List<EmployeeRecord> getEmployees(String start, String end, String class_name, Boolean supers)throws Exception{
+        String queryfrom = "Select e.emp_id, e.fname, e.lname, e.ssn, e.pnum, e.start_time, e.end_time from employee as e";
+        String queryCon = " where e.emp_id=e.emp_id";
+        if(start!=null) queryCon = queryCon.concat(" and start_time="+start);
+        if(end!=null) queryCon = queryCon.concat(" and end_time="+end);
+        if(class_name!=null){
+            queryfrom = queryfrom.concat(", conducts as c, class as cs");
+            queryCon = queryCon.concat(" and e.emp_id=c.emp_id and cs.class_id = c.class_id and cs.name='"+class_name+"'");
+        }
+        if(supers){
+            queryfrom = queryfrom.concat(", supervisor as s");
+            queryCon = queryCon.concat(" and e.emp_id= s.emp_id");
+        }
+        String query = queryfrom+queryCon;
+        System.out.println(query);
+        stmt= conn.createStatement();
+        rs = stmt.executeQuery(query);
+        ArrayList<EmployeeRecord> list = new ArrayList<>();
+        while(rs.next()){
+            list.add(new EmployeeRecord(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5),rs.getString(6),rs.getString(7)));
+        }
+        return list;
+    }
 
 
     /**

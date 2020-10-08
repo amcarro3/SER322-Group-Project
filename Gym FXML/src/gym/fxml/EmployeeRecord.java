@@ -13,6 +13,21 @@ public class EmployeeRecord {
     private String pnumb;
     private String start_time;
     private String end_time;
+
+    public EmployeeRecord() {
+    }     
+    
+
+    public EmployeeRecord(int emp_id, String fname, String lname, int ssn, String pnumb, String start_time, String end_time) {
+        this.emp_id = emp_id;
+        this.fname = fname;
+        this.lname = lname;
+        this.ssn = ssn;
+        this.pnumb = pnumb;
+        this.start_time = start_time;
+        this.end_time = end_time;
+    }
+    
     
     //Returns the Employee's employee id number.
     public int getEmp_id(){
@@ -73,5 +88,10 @@ public class EmployeeRecord {
     // to end_time. HH:MM:SS format, i.e. 08:00:00
     public void setEnd_time(String end_time){
         this.end_time = end_time;
-    }    
+    }   
+    
+    @Override
+    public String toString(){
+        return String.format("%n%5d %15s %15s %10d %11s %11s %11s", emp_id, fname, lname, ssn , pnumb, start_time, end_time);
+    }
 }

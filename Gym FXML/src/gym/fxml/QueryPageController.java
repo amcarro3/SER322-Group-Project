@@ -401,6 +401,7 @@ public class QueryPageController extends Controller implements Initializable {
         a.setTitle(null);
         TextArea textArea = new TextArea();
         textArea.setPrefWidth(1000);
+        textArea.setPrefHeight(500);
         textArea.setFont(Font.font("Monospace"));
         textArea.setText(message);
         a.getDialogPane().setContent(textArea);
@@ -688,6 +689,29 @@ public class QueryPageController extends Controller implements Initializable {
             Boolean sup = eSupCheckAdd.isSelected();
             data.addEmployee(id, fname, lname, ssn, phone, start, end, classe, sup);
             inform("Employee added Successfully");
+            setDatabase();
+        }catch(Exception e){
+            e.printStackTrace();
+            error(e.getMessage());
+        }
+    }
+    @FXML public void getEmployees(){
+        try{
+            String start=null;
+            String end=null;
+            String class_name=null;
+            Boolean superv;
+            superv=eSupCheck.isSelected();
+            if((start=eStartTimeGet.getText().trim()).isEmpty()||!start.matches("\\d{2}:\\d{2}:\\d{2}")) start=null;
+            if((end=eEndTimeGet.getText().trim()).isEmpty()||!end.matches("\\d{2}:\\d{2}:\\d{2}")) end=null;
+            if(eTeaches.getValue()!=null) class_name=eTeaches.getValue().getName();
+            System.out.println(class_name);
+            List<EmployeeRecord> list = data.getEmployees(start, end, class_name, superv);
+            String result = String.format("%5s %15s %15s %10s %11s %11s %11s", "Emp_ID", "FirstName", "LastName", "SSN", "Phone", "Start Time", "End Time");
+            for(EmployeeRecord emp: list){
+                result = result.concat(emp.toString());
+            }
+            popup(result);
             setDatabase();
         }catch(Exception e){
             e.printStackTrace();

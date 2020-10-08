@@ -55,11 +55,6 @@
                                                                         <Insets />
                                                                      </HBox.margin>
                                                                   </CheckBox>
-                                                                  <CheckBox fx:id="eTrainCheck" maxWidth="218.0" mnemonicParsing="false" text="Trainers">
-                                                                     <HBox.margin>
-                                                                        <Insets left="10.0" />
-                                                                     </HBox.margin>
-                                                                  </CheckBox>
                                                                </children>
                                                                <VBox.margin>
                                                                   <Insets top="10.0" />
@@ -70,7 +65,7 @@
                                                                   <Insets top="10.0" />
                                                                </VBox.margin>
                                                             </ComboBox>
-                                                            <Button fx:id="viewEmp" mnemonicParsing="false" text="Get Employees">
+                                                            <Button fx:id="viewEmp" mnemonicParsing="false" onAction="#getEmployees" text="Get Employees">
                                                                <VBox.margin>
                                                                   <Insets top="20.0" />
                                                                </VBox.margin>
