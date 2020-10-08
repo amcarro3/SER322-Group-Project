@@ -147,7 +147,7 @@
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="eStartTIme" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM:SS">
+                                                <TextField fx:id="eStartTime" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM:SS">
                                                    <VBox.margin>
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
@@ -285,30 +285,65 @@
                               </AnchorPane>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="213.0" SplitPane.resizableWithParent="false">
                                  <children>
-                                    <VBox alignment="CENTER" prefHeight="331.0" prefWidth="295.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <children>
-                                          <TextField fx:id="cNameSet" maxWidth="218.0" prefHeight="31.0" prefWidth="218.0" promptText="Class Name">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </TextField>
-                                          <TextField fx:id="cTimeSet" maxWidth="218.0" prefWidth="218.0" promptText="TIme Slot HH:MM:SS">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </TextField>
-                                          <ComboBox fx:id="cRoomSet" maxWidth="218.0" prefWidth="218.0" promptText="Room">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </ComboBox>
-                                          <Button mnemonicParsing="false" onAction="#addClass" text="Add">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </Button>
-                                       </children>
-                                    </VBox>
+                                    <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="413.0" prefWidth="322.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                             <children>
+                                                <VBox alignment="CENTER" prefHeight="331.0" prefWidth="295.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                      <TextField fx:id="cNameSet" maxWidth="218.0" prefHeight="31.0" prefWidth="218.0" promptText="Class Name">
+                                                         <VBox.margin>
+                                                            <Insets top="10.0" />
+                                                         </VBox.margin>
+                                                      </TextField>
+                                                      <TextField fx:id="cTimeSet" maxWidth="218.0" prefWidth="218.0" promptText="TIme Slot HH:MM:SS">
+                                                         <VBox.margin>
+                                                            <Insets top="10.0" />
+                                                         </VBox.margin>
+                                                      </TextField>
+                                                      <ComboBox fx:id="cRoomSet" maxWidth="218.0" prefWidth="218.0" promptText="Room">
+                                                         <VBox.margin>
+                                                            <Insets top="10.0" />
+                                                         </VBox.margin>
+                                                      </ComboBox>
+                                                      <Button mnemonicParsing="false" onAction="#addClass" text="Add">
+                                                         <VBox.margin>
+                                                            <Insets top="10.0" />
+                                                         </VBox.margin>
+                                                      </Button>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                             <children>
+                                                <VBox alignment="CENTER" layoutX="73.0" layoutY="14.0" prefHeight="201.0" prefWidth="320.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <children>
+                                                      <ComboBox fx:id="tID" prefHeight="31.0" prefWidth="218.0" promptText="Trainer" />
+                                                      <ComboBox fx:id="tClass" prefHeight="31.0" prefWidth="218.0" promptText="Class">
+                                                         <VBox.margin>
+                                                            <Insets top="10.0" />
+                                                         </VBox.margin>
+                                                      </ComboBox>
+                                                      <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Button mnemonicParsing="false" onAction="#addClassTrainer" text="Add trainer to class" />
+                                                            <Button mnemonicParsing="false" onAction="#deleteClassTrainer" text="Remove Trainer">
+                                                               <HBox.margin>
+                                                                  <Insets left="10.0" />
+                                                               </HBox.margin>
+                                                            </Button>
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets top="10.0" />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </AnchorPane>
+                                      </items>
+                                    </SplitPane>
                                  </children>
                               </AnchorPane>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="213.0">
@@ -371,7 +406,7 @@
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
-                                    <VBox alignment="CENTER" prefHeight="431.0" prefWidth="495.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <VBox alignment="CENTER" prefHeight="413.0" prefWidth="495.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <ComboBox fx:id="equType" editable="true" layoutX="49.0" layoutY="119.0" prefHeight="31.0" prefWidth="218.0" promptText="Type">
                                              <VBox.margin>

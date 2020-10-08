@@ -256,6 +256,28 @@ public class Database {
             }
         }
     }
+    public Boolean isTrainer(int empNo)throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("SELECT * "
+                             + "FROM trainer as t "
+                             + "WHERE t.emp_id="+empNo);
+        return rs.next();
+    }
+    public void updateTrainer(String id, Boolean add)throws Exception{
+        if(add){
+            if(isTrainer(Integer.parseInt(id))) return;
+            else{
+                stmt.executeUpdate("INSERT INTO trainer values ("+id+")");
+                conn.commit();
+            }
+        }else{
+            if(!isTrainer(Integer.parseInt(id))) return;
+            else{
+                stmt.executeUpdate("Delete From trainer where emp_id="+id);
+                conn.commit();
+            }
+        }
+    }
     
     public EmployeeRecord getEmpByID(int empNo)throws Exception{
         stmt = conn.createStatement();
@@ -472,7 +494,7 @@ public class Database {
         }
         //Query to find all classes taught by a given trainer
         else if(cname == null && timeslot == null && roomName == null && trainer != null){
-            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE" +
+            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE " +
                     "class.class_id = conducts.class_id AND emp_id = ?");
             pstmt.setInt(1, Integer.parseInt(trainer));
             rs = pstmt.executeQuery();
@@ -510,7 +532,7 @@ public class Database {
         }
         //Query classes by name and trainer
         else if(cname != null && timeslot == null && roomName == null && trainer != null){
-            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE" +
+            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE " +
                     "class.class_id = conducts.class_id AND name = ? AND emp_id = ?");
             pstmt.setString(1, cname);
             pstmt.setInt(2, Integer.parseInt(trainer));
@@ -528,7 +550,7 @@ public class Database {
         }
         //Query classes by timeslot and trainer
         else if(cname == null && timeslot != null && roomName == null && trainer != null){
-            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE" +
+            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE " +
                     "class.class_id = conducts.class_id AND time_slot = ? AND emp_id = ?");
             pstmt.setString(1, timeslot);
             pstmt.setInt(2, Integer.parseInt(trainer));
@@ -537,7 +559,7 @@ public class Database {
         }
         //Query classes by name, timeslot and trainer
         else if(cname != null && timeslot != null && roomName == null && trainer != null){
-            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE" +
+            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE " +
                     "class.class_id = conducts.class_id AND name = ? AND time_slot = ? AND emp_id = ?");
             pstmt.setString(1, cname);
             pstmt.setString(2, timeslot);
@@ -547,7 +569,7 @@ public class Database {
         }
         //Query classes by name, room, and trainer
         else if(cname != null && timeslot == null && roomName != null && trainer != null){
-            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE" +
+            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE " +
                     "class.class_id = conducts.class_id AND name = ? AND held_in = ? AND emp_id = ?");
             pstmt.setString(1, cname);
             pstmt.setString(2, roomName);
@@ -557,7 +579,7 @@ public class Database {
         }
         //Query classes by timeslot, room, and trainer
         else if(cname == null && timeslot != null && roomName != null && trainer != null){
-            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE" +
+            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE " +
                     "class.class_id = conducts.class_id AND time_slot = ? AND held_in = ? AND emp_id = ?");
             pstmt.setString(1, timeslot);
             pstmt.setString(2, roomName);
@@ -625,8 +647,9 @@ public class Database {
 	upd.execute();
         conn.commit();
 	upd.close();
-        updateSuper(id, sup);
-        updateConducts(id, classe, true);
+        updateSuper(id, sup);        
+        updateTrainer(id, true);
+        if(classe!=null) updateConducts(id, classe, true);
     }
 
     /**

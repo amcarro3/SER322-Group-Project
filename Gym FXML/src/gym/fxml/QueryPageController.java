@@ -57,7 +57,7 @@ public class QueryPageController extends Controller implements Initializable {
     @FXML private TextField cNameUpdate, cTimeUpdate;    
     @FXML private ComboBox<DropDownItem> cRoomUpdate, cID, eSID;
     @FXML private ComboBox<String> skills;
-    @FXML private ComboBox<DropDownItem> equRoomUpdate;
+    @FXML private ComboBox<DropDownItem> equRoomUpdate, eIDTeach, tID, tClass;
     @FXML private ComboBox<String> equTypeUpdate, equStatusUpdate;
     @FXML private TextField equMaintDateUpdate;
     @FXML private CheckBox supCheckUpdate;
@@ -105,6 +105,8 @@ public class QueryPageController extends Controller implements Initializable {
             cRoomUpdate.getItems().clear();
             eSID.getItems().clear();
             skills.getItems().clear();
+            tID.getItems().clear();
+            tClass.getItems().clear();
             
             eTeaches.setItems(classes);
             eTeachesAdd.setItems(FXCollections.observableList(data.getClassIds()));
@@ -122,6 +124,8 @@ public class QueryPageController extends Controller implements Initializable {
             cID.setItems(FXCollections.observableList(data.getClassByIDs()));
             cRoomUpdate.setItems(rooms);
             eSID.setItems(FXCollections.observableList(data.getEmpByIDs()));
+            tID.setItems(trainers);
+            tClass.setItems(FXCollections.observableList(data.getClassByIDs()));
             
         }
         catch (Exception e){
@@ -527,6 +531,42 @@ public class QueryPageController extends Controller implements Initializable {
             error(e.getMessage());
         }
     }
+    @FXML public void addClassTrainer(){
+        try{
+            if(tID.getValue()==null){
+                error("Please select Trainer");
+                return;
+            }
+            if(tClass.getValue()==null){
+                error("Please Select Class");
+                return;
+            }
+            data.updateConducts(Integer.toString(tID.getValue().getId()), Integer.toString(tClass.getValue().getId()), true);
+            inform("Trainer Successfully added to class");
+            setDatabase();
+        }catch(Exception e){
+           e.printStackTrace();
+            error(e.getMessage()); 
+        }
+    }
+    @FXML public void deleteClassTrainer(){
+        try{
+            if(tID.getValue()==null){
+                error("Please select Trainer");
+                return;
+            }
+            if(tClass.getValue()==null){
+                error("Please Select Class");
+                return;
+            }
+            data.updateConducts(Integer.toString(tID.getValue().getId()), Integer.toString(tClass.getValue().getId()), false);
+            inform("Trainer successfully removed from class");
+            setDatabase();
+        }catch(Exception e){
+           e.printStackTrace();
+            error(e.getMessage()); 
+        }
+    }
     
     @FXML public void updateEquipment(){
         try{
@@ -618,14 +658,37 @@ public class QueryPageController extends Controller implements Initializable {
     }
     @FXML public void addEmployee(){
         try{
-        String id = Integer.toString(data.getMaxIdEmp()+1);
-        String fname = efname.getText().trim();
-        String lname = elname.getText().trim();
-        String ssn = essn.getText().trim();
-        String phone = ePnum.getText().trim();
-        String start = eStartTime.getText().trim();
-        String end = eEndTime.getText().trim();
-        //data.addEmployee(id, fname, lname, ssn, phone, start, end, classe, sup);
+            String id = Integer.toString(data.getMaxIdEmp()+1);
+            String fname = efname.getText().trim();
+            String lname = elname.getText().trim();
+            String ssn = essn.getText().trim();
+            String phone = ePnum.getText().trim();
+            String start = eStartTime.getText().trim();
+            String end = eEndTime.getText().trim();
+            String classe = null;
+            if(fname.isEmpty()||lname.isEmpty()||ssn.isEmpty()||phone.isEmpty()||start.isEmpty()||end.isEmpty()){
+                error("Please enter all feilds to add an employee");
+                return;
+            }
+            if(!ssn.matches("\\d{9}")){
+                error("Please enter a 9 digit number for the SSN");
+                return;
+            }
+            if(!phone.matches("\\d{10}")){
+                error("Please enter a 10 digit number for the Phone number");
+                return;
+            }
+            if((start.matches("\\d{2}:\\d{2}:\\d{2}")&&end.matches("\\d{2}:\\d{2}:\\d{2}"))){
+                error("Please enter the start and end times as HH:MM:SS");
+                return;
+            }
+            if(eTeachesAdd.getValue()!=null){
+                classe = Integer.toString(eTeachesAdd.getValue().getId());
+            }
+            Boolean sup = eSupCheckAdd.isSelected();
+            data.addEmployee(id, fname, lname, ssn, phone, start, end, classe, sup);
+            inform("Employee added Successfully");
+            setDatabase();
         }catch(Exception e){
             e.printStackTrace();
             error(e.getMessage());
