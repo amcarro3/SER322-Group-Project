@@ -28,17 +28,14 @@ public class Database {
     public void setDriver(String driver) throws ClassNotFoundException{
         //comment for IDE Testing
         Class.forName(driver);        
-    }
-    
+    }    
     public void login(String url, String user, String password)throws Exception{
         conn = DriverManager.getConnection(url, user, password);
         conn.setAutoCommit(false);
-    }
-    
+    }    
     public void logout(){
         closeConnection();
-    }
-    
+    }    
     private void closeConnection(){
         try {
             if (rs != null){
@@ -62,7 +59,7 @@ public class Database {
         catch (SQLException se) {
             se.printStackTrace();
         }
-    }
+    } 
     
     public List<DropDownItem> getEquTypes() throws Exception{
         stmt = conn.createStatement();
@@ -75,7 +72,19 @@ public class Database {
         rs.close();
         stmt.close();
         return classes;
-    }    
+    }
+    public List<String> getEquTypes(Boolean t) throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("select distinct equip_type "
+                             + "from equipment");
+        ArrayList<String> classes = new ArrayList<>();                     
+        while (rs.next()) {
+           classes.add(rs.getString(1));
+        }
+        rs.close();
+        stmt.close();
+        return classes;
+    }   
     public List<DropDownItem> getEquStatuses() throws Exception{
         stmt = conn.createStatement();
         rs = stmt.executeQuery("select distinct equip_status "
@@ -87,7 +96,20 @@ public class Database {
         rs.close();
         stmt.close();
         return classes;
-    }    
+    }
+    public List<String> getEquStatuses(Boolean t) throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("select distinct equip_status "
+                             + "from equipment");
+        ArrayList<String> classes = new ArrayList<String>();                     
+        while (rs.next()) {
+           classes.add(rs.getString(1));
+        }
+        rs.close();
+        stmt.close();
+        return classes;
+    }
+    
     public List<DropDownItem> getClasses() throws Exception{
         stmt = conn.createStatement();
         rs = stmt.executeQuery("select distinct c.name "

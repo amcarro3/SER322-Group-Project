@@ -57,7 +57,8 @@ public class QueryPageController extends Controller implements Initializable {
     @FXML private TextField cNameUpdate, cTimeUpdate;    
     @FXML private ComboBox<DropDownItem> cRoomUpdate, cID, eSID;
     @FXML private ComboBox<String> skills;
-    @FXML private ComboBox<DropDownItem> equTypeUpdate, equRoomUpdate, equStatusUpdate;
+    @FXML private ComboBox<DropDownItem> equRoomUpdate;
+    @FXML private ComboBox<String> equTypeUpdate, equStatusUpdate;
     @FXML private TextField equMaintDateUpdate;
     
     @FXML public void setDatabase(){
@@ -110,9 +111,9 @@ public class QueryPageController extends Controller implements Initializable {
             equStatus.setItems(FXCollections.observableList(data.getEquStatuses()));
             eID.setItems(FXCollections.observableList(data.getEmpByIDs()));
             equID.setItems(FXCollections.observableList(data.getEquByIDs()));
-            equTypeUpdate.setItems(FXCollections.observableList(data.getEquTypes()));
+            equTypeUpdate.setItems(FXCollections.observableList(data.getEquTypes(true)));
             equRoomUpdate.setItems(rooms);
-            equStatusUpdate.setItems(FXCollections.observableList(data.getEquStatuses()));
+            equStatusUpdate.setItems(FXCollections.observableList(data.getEquStatuses(true)));
             cID.setItems(FXCollections.observableList(data.getClassByIDs()));
             cRoomUpdate.setItems(rooms);
             eSID.setItems(FXCollections.observableList(data.getEmpByIDs()));
@@ -197,9 +198,9 @@ public class QueryPageController extends Controller implements Initializable {
             EquipmentRecord equ = data.getEquByID(id.getId());
             setDatabase(data);
             equID.setValue(id);
-            setComboBox(equTypeUpdate, equ.getType());
+            setComboBox(equTypeUpdate, equ.getType(), true);
             setComboBox(equRoomUpdate, equ.getRoom());
-            setComboBox(equStatusUpdate, equ.getStatus());
+            setComboBox(equStatusUpdate, equ.getStatus(), true);
             equMaintDateUpdate.setText(equ.getDate());            
         }catch(Exception e){
             e.printStackTrace();
@@ -244,6 +245,15 @@ public class QueryPageController extends Controller implements Initializable {
         ObservableList<DropDownItem> items = box.getItems();
         for(int i=0; i<items.size();i++){
             if(items.get(i).getName().compareTo(string)==0){
+                box.setValue(items.get(i));
+                return;
+            }
+        }
+    }
+    private void setComboBox(ComboBox<String> box, String string, Boolean t){
+        ObservableList<String> items = box.getItems();
+        for(int i=0; i<items.size();i++){
+            if(items.get(i).compareTo(string)==0){
                 box.setValue(items.get(i));
                 return;
             }
@@ -409,28 +419,20 @@ public class QueryPageController extends Controller implements Initializable {
                 return;
             }
             if(equTypeUpdate.getValue()==null){
-                if(equTypeUpdate.getEditor().getText().trim().isEmpty()){
                     error("Please select or enter Equipment type");
                     return;
-                }else{
-                    type=equTypeUpdate.getEditor().getText().trim(); 
-                }
             }else{
-                type=equTypeUpdate.getValue().getName();
+                type=equTypeUpdate.getValue();
             }
             if(equRoomUpdate.getValue()==null){
                 error("Please select a room");
                 return;
             }
             if(equStatusUpdate.getValue()==null){
-                if(equStatusUpdate.getEditor().getText().trim().isEmpty()){
                     error("Please select or enter Equipment status");
                     return;
-                }else{
-                    status=equStatusUpdate.getEditor().getText().trim(); 
-                }
             }else{
-                status=equStatusUpdate.getValue().getName();
+                status=equStatusUpdate.getValue();
             }
             String mDate = equMaintDateUpdate.getText().trim();
             if(mDate.isEmpty()){
@@ -444,7 +446,8 @@ public class QueryPageController extends Controller implements Initializable {
             String id = Integer.toString(equID.getValue().getId());
             String room = equRoomUpdate.getValue().getName();
             data.updateEquip(id, type, room, mDate, status);
-            inform("Updated Successfully");            
+            inform("Updated Successfully"); 
+            setDatabase();
         }catch(Exception e){
             e.printStackTrace();
             error(e.getMessage());

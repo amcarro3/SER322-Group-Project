@@ -426,7 +426,7 @@
                                                 <Insets top="10.0" />
                                              </VBox.margin>
                                           </ComboBox>
-                                          <ComboBox fx:id="equStatusUpdate" prefHeight="31.0" prefWidth="218.0" promptText="Status">
+                                          <ComboBox fx:id="equStatusUpdate" editable="true" prefHeight="31.0" prefWidth="218.0" promptText="Status">
                                              <VBox.margin>
                                                 <Insets top="10.0" />
                                              </VBox.margin>
