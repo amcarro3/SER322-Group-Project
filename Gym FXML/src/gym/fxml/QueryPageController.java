@@ -43,7 +43,7 @@ public class QueryPageController extends Controller implements Initializable {
     @FXML private TextField essn;
     @FXML private ComboBox<DropDownItem> eTeachesAdd;
     @FXML private MenuBar menu;
-    @FXML private TextField eStarTIme;
+    @FXML private TextField eStartTIme;
     @FXML private TextField ePnum;
     @FXML private Button viewEmp;
     @FXML private TextField eEndTimeGet;
@@ -53,16 +53,21 @@ public class QueryPageController extends Controller implements Initializable {
     @FXML private ComboBox<DropDownItem> eTeaches;    
     @FXML private ComboBox<DropDownItem> cRoomSet;    
     @FXML private ComboBox<DropDownItem> eID, equID;    
-    @FXML private TextField efnameUpdate, elnameUpdate, essnUpdate, ePnumUpdate, eStarTImeUpdate, eEndTimeUpdate;    
+    @FXML private TextField efnameUpdate, elnameUpdate, essnUpdate, ePnumUpdate, eStartTimeUpdate, eEndTimeUpdate;    
     @FXML private TextField cNameUpdate, cTimeUpdate;    
     @FXML private ComboBox<DropDownItem> cRoomUpdate, cID, eSID;
     @FXML private ComboBox<String> skills;
     @FXML private ComboBox<DropDownItem> equRoomUpdate;
     @FXML private ComboBox<String> equTypeUpdate, equStatusUpdate;
     @FXML private TextField equMaintDateUpdate;
+    @FXML private CheckBox supCheckUpdate;
     
     @FXML public void setDatabase(){
         setDatabase(data);
+        getEmpByID(true);
+        getClassByID(true);
+        getEquByID(true);
+        getSkillsByID(true);
     }
     @Override
     public void setDatabase(Database data){
@@ -145,8 +150,9 @@ public class QueryPageController extends Controller implements Initializable {
             elnameUpdate.setText(emp.getLname());
             essnUpdate.setText(Integer.toString(emp.getSsn()));
             ePnumUpdate.setText(emp.getPnumb());
-            eStarTImeUpdate.setText(emp.getStart_time());
+            eStartTimeUpdate.setText(emp.getStart_time());
             eEndTimeUpdate.setText(emp.getEnd_time());
+            supCheckUpdate.setSelected(data.isSuper(emp_id));
             
         }catch(Exception e){
             e.printStackTrace();
@@ -218,6 +224,118 @@ public class QueryPageController extends Controller implements Initializable {
             DropDownItem id = eSID.getValue();
             if(id==null) {
                 inform("Please Select Employee");
+                return;
+            }
+            skills.setItems(FXCollections.observableList(data.getSkillsByIDs(id.getId())));                     
+        }catch(Exception e){
+            e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Error");
+            a.setContentText(e.getMessage());
+            a.setHeaderText(null);
+            a.showAndWait();
+            System.exit(0);
+        }      
+    }
+    
+    @FXML private void getEmpByID(Boolean t){
+        try{
+            
+            DropDownItem id = eID.getValue();
+            if(id==null) {
+                eID.setValue(id);
+                efnameUpdate.clear();
+                elnameUpdate.clear();
+                essnUpdate.clear();
+                ePnumUpdate.clear();
+                eStartTimeUpdate.clear();
+                eEndTimeUpdate.clear();
+                supCheckUpdate.setSelected(false);
+                return;
+            }
+            int emp_id = id.getId();
+            EmployeeRecord emp = data.getEmpByID(emp_id);
+            setDatabase(data);
+            eID.setValue(id);
+            efnameUpdate.setText(emp.getFname());
+            elnameUpdate.setText(emp.getLname());
+            essnUpdate.setText(Integer.toString(emp.getSsn()));
+            ePnumUpdate.setText(emp.getPnumb());
+            eStartTimeUpdate.setText(emp.getStart_time());
+            eEndTimeUpdate.setText(emp.getEnd_time());
+            supCheckUpdate.setSelected(data.isSuper(emp_id));
+            
+        }catch(Exception e){
+            e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Error");
+            a.setContentText(e.getMessage());
+            a.setHeaderText(null);
+            a.showAndWait();
+            System.exit(0);
+        }  
+        
+    }
+    @FXML private void getClassByID(Boolean t){
+        try{
+            
+            DropDownItem id = cID.getValue();
+            if(id==null) {
+                cNameUpdate.clear();
+                cTimeUpdate.clear();
+                return;
+            }
+            int class_id = id.getId();
+            ClassRecord cls = data.getClassByID(class_id);
+            setDatabase(data);
+            cID.setValue(id);
+            cNameUpdate.setText(cls.getName());
+            cTimeUpdate.setText(cls.getTime());
+            setComboBox(cRoomUpdate, cls.getRoom());
+            
+        }catch(Exception e){
+            e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Error");
+            a.setContentText(e.getMessage());
+            a.setHeaderText(null);
+            a.showAndWait();
+            System.exit(0);
+        }  
+        
+    }
+    @FXML private void getEquByID(Boolean t){
+        try{
+            
+            DropDownItem id = equID.getValue();
+            if(id==null) {
+                equMaintDateUpdate.clear();
+                return;
+            }
+            int emp_id = id.getId();
+            EquipmentRecord equ = data.getEquByID(id.getId());
+            setDatabase(data);
+            equID.setValue(id);
+            setComboBox(equTypeUpdate, equ.getType(), true);
+            setComboBox(equRoomUpdate, equ.getRoom());
+            setComboBox(equStatusUpdate, equ.getStatus(), true);
+            equMaintDateUpdate.setText(equ.getDate());            
+        }catch(Exception e){
+            e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("Error");
+            a.setContentText(e.getMessage());
+            a.setHeaderText(null);
+            a.showAndWait();
+            System.exit(0);
+        }      
+    }
+    @FXML private void getSkillsByID(Boolean t){
+        try{
+            
+            DropDownItem id = eSID.getValue();
+            if(id==null) {
+                skills.getItems().clear();
                 return;
             }
             skills.setItems(FXCollections.observableList(data.getSkillsByIDs(id.getId())));                     
@@ -446,6 +564,51 @@ public class QueryPageController extends Controller implements Initializable {
             String id = Integer.toString(equID.getValue().getId());
             String room = equRoomUpdate.getValue().getName();
             data.updateEquip(id, type, room, mDate, status);
+            inform("Updated Successfully"); 
+            setDatabase();
+        }catch(Exception e){
+            e.printStackTrace();
+            error(e.getMessage());
+        }
+    }
+    @FXML public void updateEmployee(){
+        try{
+            String id, fname, lname, ssn, pnum, start, end;
+            if(eID.getValue()==null){
+                error("Select equipmentId");
+                return;
+            }else{
+                id=Integer.toString(eID.getValue().getId());
+            }
+            if((fname=efnameUpdate.getText().trim()).isEmpty()){
+                error("Enter a First Name");
+                return;
+            }
+            if((lname=elnameUpdate.getText().trim()).isEmpty()){
+                error("Enter a Last Name");
+                return;
+            }if((ssn=essnUpdate.getText().trim()).isEmpty()){
+                error("Enter a SSN");
+                return;
+            }
+            if((pnum=ePnumUpdate.getText().trim()).isEmpty()){
+                error("Enter a phone number");
+                return;
+            }
+            if((start=eStartTimeUpdate.getText().trim()).isEmpty()){
+                error("Enter");
+                return;
+            }
+            if((end=eEndTimeUpdate.getText().trim()).isEmpty()){
+                error("Enter");
+                return;
+            }
+            if(!start.matches("\\d{2}:\\d{2}:\\d{2}")||!end.matches("\\d{2}:\\d{2}:\\d{2}")){
+                error("Enter the time in the format HH:MM:SS");
+                return;
+            }
+            Boolean sup = supCheckUpdate.isSelected();
+            data.updateEmployee(id, fname, lname, ssn, pnum, start, end, sup);
             inform("Updated Successfully"); 
             setDatabase();
         }catch(Exception e){

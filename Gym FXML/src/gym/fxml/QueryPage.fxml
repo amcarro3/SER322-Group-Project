@@ -147,7 +147,7 @@
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="eStarTIme" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM:SS">
+                                                <TextField fx:id="eStartTIme" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM:SS">
                                                    <VBox.margin>
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
@@ -217,7 +217,7 @@
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="eStarTImeUpdate" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM:SS">
+                                                <TextField fx:id="eStartTimeUpdate" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM:SS">
                                                    <VBox.margin>
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
@@ -227,9 +227,17 @@
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
                                                 </TextField>
+                                                <HBox maxWidth="218.0" prefHeight="30.0" prefWidth="218.0">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                   <children>
+                                                      <CheckBox fx:id="supCheckUpdate" mnemonicParsing="false" text="Supervisor" />
+                                                   </children>
+                                                </HBox>
                                                 <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
                                                    <children>
-                                                      <Button mnemonicParsing="false" text="Update Employee">
+                                                      <Button mnemonicParsing="false" onAction="#updateEmployee" text="Update Employee">
                                                          <HBox.margin>
                                                             <Insets left="10.0" />
                                                          </HBox.margin>

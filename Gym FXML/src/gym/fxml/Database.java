@@ -211,7 +211,14 @@ public class Database {
         stmt.close();
         return skills;
     }
-        
+    
+    public Boolean isSuper(int empNo) throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("SELECT * "
+                             + "FROM supervisor as s "
+                             + "WHERE s.emp_id="+empNo);
+        return rs.next();
+    }
     public EmployeeRecord getEmpByID(int empNo)throws Exception{
         stmt = conn.createStatement();
         rs = stmt.executeQuery("SELECT e.emp_id, e.fname, e.lname, e.ssn, e.pnum, e.start_time, e.end_time "
@@ -377,7 +384,25 @@ public class Database {
      * @throws Exception 
      * @author Anthony
      */
-    public void updateEmpoyee(String id, String fname, String lname, String ssn, String pnum, String start, String end)throws Exception{
+    
+    public void updateEmployee(String id, String fname, String lname, String ssn, String pnum, String start, String end, Boolean supervisor)throws Exception{
+        this.updateEmployee(id, fname, lname, ssn, pnum, start, end);
+        stmt = conn.createStatement();
+        if(supervisor){
+            if(isSuper(Integer.parseInt(id))) return;
+            else{
+                stmt.executeUpdate("INSERT INTO supervisor values ("+id+")");
+                conn.commit();
+            }
+        }else{
+            if(!isSuper(Integer.parseInt(id))) return;
+            else{
+                stmt.executeUpdate("Delete From supervisor where emp_id="+id);
+                conn.commit();
+            }
+        }
+    }
+    public void updateEmployee(String id, String fname, String lname, String ssn, String pnum, String start, String end)throws Exception{
         String query = "UPDATE employee SET fname=?, lname=?, ssn=?, pnum=?, start_time=?, end_time=? Where emp_id="+id;
         PreparedStatement upd;
 	upd = conn.prepareStatement (query);
