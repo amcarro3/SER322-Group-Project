@@ -495,7 +495,7 @@ public class Database {
         //Query to find all classes taught by a given trainer
         else if(cname == null && timeslot == null && roomName == null && trainer != null){
             pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE " +
-                    "class.class_id = conducts.class_id AND emp_id = ?");
+                    "class.class_id = conducts.class_id AND conducts.emp_id = ?");
             pstmt.setInt(1, Integer.parseInt(trainer));
             rs = pstmt.executeQuery();
             return findClasses();
@@ -516,9 +516,8 @@ public class Database {
         }
         //Query classes by name and timeslot
         else if(cname != null && timeslot != null && roomName == null && trainer == null){
-            pstmt = conn.prepareStatement("SELECT * FROM class WHERE name = ? AND time_slot = ?");
+            pstmt = conn.prepareStatement("SELECT * FROM class WHERE name = ? AND time_slot="+timeslot);
             pstmt.setString(1, cname);
-            pstmt.setString(2, timeslot);
             rs = pstmt.executeQuery();
             return findClasses();
         }
@@ -551,25 +550,23 @@ public class Database {
         //Query classes by timeslot and trainer
         else if(cname == null && timeslot != null && roomName == null && trainer != null){
             pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE " +
-                    "class.class_id = conducts.class_id AND time_slot = ? AND emp_id = ?");
-            pstmt.setString(1, timeslot);
-            pstmt.setInt(2, Integer.parseInt(trainer));
+                    "class.class_id = conducts.class_id AND time_slot="+timeslot+" AND emp_id = ?");
+            pstmt.setInt(1, Integer.parseInt(trainer));
             rs = pstmt.executeQuery();
             return findClasses();
         }
         //Query classes by name, timeslot and trainer
         else if(cname != null && timeslot != null && roomName == null && trainer != null){
-            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE " +
-                    "class.class_id = conducts.class_id AND name = ? AND time_slot = ? AND emp_id = ?");
+            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE" +
+                    "class.class_id = conducts.class_id AND name = ? AND class.time_slot="+timeslot+" AND conducts.emp_id = ?");
             pstmt.setString(1, cname);
-            pstmt.setString(2, timeslot);
-            pstmt.setInt(3, Integer.parseInt(trainer));
+            pstmt.setInt(2, Integer.parseInt(trainer));
             rs = pstmt.executeQuery();
             return findClasses();
         }
         //Query classes by name, room, and trainer
         else if(cname != null && timeslot == null && roomName != null && trainer != null){
-            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE " +
+            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE" +
                     "class.class_id = conducts.class_id AND name = ? AND held_in = ? AND emp_id = ?");
             pstmt.setString(1, cname);
             pstmt.setString(2, roomName);
@@ -593,6 +590,15 @@ public class Database {
             pstmt.setString(1, cname);
             pstmt.setString(2, roomName);
             pstmt.setString(3, timeslot);
+            rs = pstmt.executeQuery();
+            return findClasses();
+        }
+        //Query classes by timeslot, room, and trainer
+        else if(cname == null && timeslot != null && roomName != null && trainer == null){
+            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class WHERE " +
+                    "time_slot = ? AND held_in = ?");
+            pstmt.setString(1, timeslot);
+            pstmt.setString(2, roomName);
             rs = pstmt.executeQuery();
             return findClasses();
         }

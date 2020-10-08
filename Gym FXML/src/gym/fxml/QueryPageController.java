@@ -456,7 +456,7 @@ public class QueryPageController extends Controller implements Initializable {
             String room = null;
             String teachID = null;
             if(!cNameGet.getText().trim().isEmpty()) name = cNameGet.getText().trim();
-            if(!cTimeGet.getText().trim().isEmpty()) time = cTimeGet.getText().trim();
+            if(!cTimeGet.getText().isEmpty()&&cTimeGet.getText().matches("\\d{2}:\\d{2}:\\d{2}")) time = cTimeGet.getText();
             if(cRoom.getValue()!=null) room = cRoom.getValue().getName();
             if(cTeachers.getValue()!=null) teachID = Integer.toString(cTeachers.getValue().getId());
             List<ClassRecord> classes = data.getClasses(name, time, room, teachID);
