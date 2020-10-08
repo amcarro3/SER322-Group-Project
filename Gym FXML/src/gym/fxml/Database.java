@@ -219,6 +219,44 @@ public class Database {
                              + "WHERE s.emp_id="+empNo);
         return rs.next();
     }
+    public void updateSuper(String id, Boolean supervisor)throws Exception{
+        if(supervisor){
+            if(isSuper(Integer.parseInt(id))) return;
+            else{
+                stmt.executeUpdate("INSERT INTO supervisor values ("+id+")");
+                conn.commit();
+            }
+        }else{
+            if(!isSuper(Integer.parseInt(id))) return;
+            else{
+                stmt.executeUpdate("Delete From supervisor where emp_id="+id);
+                conn.commit();
+            }
+        }
+    }
+    public Boolean conductsClass(String emp_id, String class_id)throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("SELECT * "
+                             + "FROM conducts as c "
+                             + "WHERE c.emp_id="+emp_id);
+        return rs.next();
+    }
+    public void updateConducts(String emp_id, String class_id, Boolean add)throws Exception{
+        if(add){
+            if(conductsClass(emp_id, class_id)) return;
+            else{
+                stmt.executeUpdate("INSERT INTO conducts values ("+emp_id+", "+class_id+")");
+                conn.commit();
+            }
+        }else{
+            if(!conductsClass(emp_id, class_id)) return;
+            else{
+                stmt.executeUpdate("Delete From conducts where emp_id="+emp_id+" and class_id="+class_id);
+                conn.commit();
+            }
+        }
+    }
+    
     public EmployeeRecord getEmpByID(int empNo)throws Exception{
         stmt = conn.createStatement();
         rs = stmt.executeQuery("SELECT e.emp_id, e.fname, e.lname, e.ssn, e.pnum, e.start_time, e.end_time "
@@ -372,7 +410,14 @@ public class Database {
         conn.commit();
         upd.close();
     }
-    /**
+    
+    
+    public void updateEmployee(String id, String fname, String lname, String ssn, String pnum, String start, String end, Boolean supervisor)throws Exception{
+        this.updateEmployee(id, fname, lname, ssn, pnum, start, end);
+        stmt = conn.createStatement();
+        updateSuper(id, supervisor);       
+    }
+   /**
      * 
      * @param id
      * @param fname
@@ -383,25 +428,7 @@ public class Database {
      * @param end
      * @throws Exception 
      * @author Anthony
-     */
-    
-    public void updateEmployee(String id, String fname, String lname, String ssn, String pnum, String start, String end, Boolean supervisor)throws Exception{
-        this.updateEmployee(id, fname, lname, ssn, pnum, start, end);
-        stmt = conn.createStatement();
-        if(supervisor){
-            if(isSuper(Integer.parseInt(id))) return;
-            else{
-                stmt.executeUpdate("INSERT INTO supervisor values ("+id+")");
-                conn.commit();
-            }
-        }else{
-            if(!isSuper(Integer.parseInt(id))) return;
-            else{
-                stmt.executeUpdate("Delete From supervisor where emp_id="+id);
-                conn.commit();
-            }
-        }
-    }
+     */   
     public void updateEmployee(String id, String fname, String lname, String ssn, String pnum, String start, String end)throws Exception{
         String query = "UPDATE employee SET fname=?, lname=?, ssn=?, pnum=?, start_time=?, end_time=? Where emp_id="+id;
         PreparedStatement upd;
@@ -569,6 +596,37 @@ public class Database {
         pstmt.setString(4, room);
         pstmt.executeUpdate();
         conn.commit();
+    }
+    /**
+     * 
+     * @param id
+     * @param fname
+     * @param lname
+     * @param ssn
+     * @param phone
+     * @param start
+     * @param end
+     * @param Classe
+     * @param sup
+     * @throws Exception 
+     * @author Anthony
+     */
+    public void addEmployee(String id, String fname, String lname, String ssn, String phone, String start, String end, String classe, Boolean sup)throws Exception{
+        String query = "INSERT INTO employee VALUES (?,?,?,?,?,?,?)";
+        PreparedStatement upd;
+	upd = conn.prepareStatement (query);
+        upd.setString(1, id);
+	upd.setString(2, fname);
+	upd.setString(3, lname);
+	upd.setString(4, ssn);
+	upd.setString(5, phone);
+	upd.setString(6, start);
+	upd.setString(7, end);	
+	upd.execute();
+        conn.commit();
+	upd.close();
+        updateSuper(id, sup);
+        updateConducts(id, classe, true);
     }
 
     /**

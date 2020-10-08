@@ -30,7 +30,7 @@ public class QueryPageController extends Controller implements Initializable {
     
     @FXML private ComboBox<DropDownItem> cRoom, cTeachers;
     @FXML private Button addEquipt, addEmp;
-    @FXML private CheckBox eTrainCheck, eSupCheck;
+    @FXML private CheckBox eTrainCheck, eSupCheck, eSupCheckAdd;
     @FXML private TextField efname, elname, cNameGet, cTimeSet;
     @FXML private ComboBox<DropDownItem> equStatus, equRoom;
     @FXML private DatePicker equMaint;
@@ -43,7 +43,7 @@ public class QueryPageController extends Controller implements Initializable {
     @FXML private TextField essn;
     @FXML private ComboBox<DropDownItem> eTeachesAdd;
     @FXML private MenuBar menu;
-    @FXML private TextField eStartTIme;
+    @FXML private TextField eStartTime;
     @FXML private TextField ePnum;
     @FXML private Button viewEmp;
     @FXML private TextField eEndTimeGet;
@@ -611,6 +611,21 @@ public class QueryPageController extends Controller implements Initializable {
             data.updateEmployee(id, fname, lname, ssn, pnum, start, end, sup);
             inform("Updated Successfully"); 
             setDatabase();
+        }catch(Exception e){
+            e.printStackTrace();
+            error(e.getMessage());
+        }
+    }
+    @FXML public void addEmployee(){
+        try{
+        String id = Integer.toString(data.getMaxIdEmp()+1);
+        String fname = efname.getText().trim();
+        String lname = elname.getText().trim();
+        String ssn = essn.getText().trim();
+        String phone = ePnum.getText().trim();
+        String start = eStartTime.getText().trim();
+        String end = eEndTime.getText().trim();
+        //data.addEmployee(id, fname, lname, ssn, phone, start, end, classe, sup);
         }catch(Exception e){
             e.printStackTrace();
             error(e.getMessage());

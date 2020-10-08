@@ -159,7 +159,7 @@
                                                 </TextField>
                                                 <HBox maxWidth="218.0" prefHeight="21.0" prefWidth="218.0">
                                                    <children>
-                                                      <CheckBox fx:id="eSupCheck1" mnemonicParsing="false" text="Supervisor">
+                                                      <CheckBox fx:id="eSupCheckAdd" mnemonicParsing="false" text="Supervisor">
                                                          <HBox.margin>
                                                             <Insets />
                                                          </HBox.margin>
@@ -174,7 +174,7 @@
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
                                                 </ComboBox>
-                                                <Button fx:id="addEmp" mnemonicParsing="false" text="Add Employee">
+                                                <Button fx:id="addEmp" mnemonicParsing="false" onAction="#addEmployee" text="Add Employee">
                                                    <VBox.margin>
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
