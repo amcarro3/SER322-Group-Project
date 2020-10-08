@@ -50,4 +50,9 @@ public class ClassRecord {
     public void setRoom(String room) {
         this.room = room;
     }
+    
+    @Override
+    public String toString(){
+        return String.format("%n%5d %15s %15s %15s", id, name.trim(), time.trim(), room.trim());
+    }
 }

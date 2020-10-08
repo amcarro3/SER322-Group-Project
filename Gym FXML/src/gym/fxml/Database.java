@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -320,25 +321,53 @@ public class Database {
 	notice.showAndWait();	
 	pstmt.close();
     }    
-    
     /**
      * 
-     * @param startTime might be empty if not selected
-     * @param EndTime 
-     * @param Supervisors
-     * @param Trainers
-     * @param className
-     * @return 
+     * @param id
+     * @param type
+     * @param room
+     * @param date
+     * @param status
+     * @throws Exception 
+     * @author Anthony
      */
-//    public List<EmployeeRecord> getEmployees(String startTime, String EndTime, Boolean Supervisors, Boolean Trainers, DropDownItem className){
-//        
-//    }
-    public List<ClassRecord> getClasses(String cName, String time, String room_name, int emp_id){
-        ArrayList<ClassRecord> list = new ArrayList<>();
-        list.add(new ClassRecord(001, "Crossfit", "08:00:00", "Jupiter"));
-        list.add(new ClassRecord(002, "Crossfit", "16:00:00", "Jupiter"));
-        list.add(new ClassRecord(003, "Crossfit", "00:00:00", "Jupiter"));
-        return list;
+    public void updateEquip(String id, String type, String room, String date, String status) throws Exception{
+        PreparedStatement upd;
+        String query = "UPDATE equipment set equip_type=?, room=?, date=?, equip_status=? Where equip_id="+id;
+        upd = conn.prepareStatement (query);
+        upd.setString(1, type);
+        upd.setString(2, room);
+        upd.setString(3, date);
+        upd.setString(4, status);
+        upd.execute();
+        conn.commit();
+        upd.close();
+    }
+    /**
+     * 
+     * @param id
+     * @param fname
+     * @param lname
+     * @param ssn
+     * @param pnum
+     * @param start
+     * @param end
+     * @throws Exception 
+     * @author Anthony
+     */
+    public void updateEmpoyee(String id, String fname, String lname, String ssn, String pnum, String start, String end)throws Exception{
+        String query = "UPDATE employee SET fname=?, lname=?, ssn=?, pnum=?, start_time=?, end_time=? Where emp_id="+id;
+        PreparedStatement upd;
+	upd = conn.prepareStatement (query);
+	upd.setString(1, fname);
+	upd.setString(2, lname);
+	upd.setString(3, ssn);
+	upd.setString(4, pnum);
+	upd.setString(5, start);
+	upd.setString(6, end);	
+	upd.execute();
+        conn.commit();
+	upd.close();
     }
     
       /**
@@ -350,13 +379,21 @@ public class Database {
      * @param trainer
      * @return
      * @throws SQLException
+     * @author John
      */
-    public LinkedList<Classes> getClasses(String cname, String timeslot, String roomName, String trainer)
+    public List<ClassRecord> getClasses(String cname, String timeslot, String roomName, String trainer)
     throws SQLException {
         //Query to find all classes
         if(cname == null && timeslot == null && roomName == null && trainer == null) {
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT * FROM class");
+            return findClasses();
+        }
+         //Query classes by name
+        else if(cname != null && timeslot == null && roomName == null && trainer == null){
+            pstmt = conn.prepareStatement("SELECT * FROM class WHERE name = ?");
+            pstmt.setString(1, cname);
+            rs = pstmt.executeQuery();
             return findClasses();
         }
         //Query to find all classes taught by a given trainer
@@ -408,7 +445,7 @@ public class Database {
         }
         //Query classes by room and trainer
         else if(cname == null && timeslot == null && roomName != null && trainer != null){
-            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE" +
+            pstmt = conn.prepareStatement("SELECT class.class_id, name, time_slot, held_in FROM class, conducts WHERE " +
                     "class.class_id = conducts.class_id AND held_in = ? AND emp_id = ?");
             pstmt.setString(1, roomName);
             pstmt.setInt(2, Integer.parseInt(trainer));
@@ -463,7 +500,7 @@ public class Database {
             rs = pstmt.executeQuery();
             return findClasses();
         }
-        else return new LinkedList<Classes>();
+        else return new LinkedList<ClassRecord>();
 
     }
 
@@ -475,6 +512,7 @@ public class Database {
      * @param time
      * @param room
      * @throws SQLException
+     * @author John
      */
     public void addClass(String classId, String cname, String time, String room) throws SQLException{
         pstmt = conn.prepareStatement("INSERT INTO class VALUES (?,?,?,?)");
@@ -482,7 +520,8 @@ public class Database {
         pstmt.setString(2, cname);
         pstmt.setString(3, time);
         pstmt.setString(4, room);
-        rs = pstmt.executeQuery();
+        pstmt.executeUpdate();
+        conn.commit();
     }
 
     /**
@@ -492,6 +531,7 @@ public class Database {
      * @param timeslot
      * @param room
      * @throws SQLException
+     * @author John
      */
     public void updateClass(String classId, String cname, String timeslot, String room) throws SQLException{
         pstmt = conn.prepareStatement("UPDATE class SET name = ?, time_slot = ?, held_in = ? WHERE class_id = ?");
@@ -499,16 +539,18 @@ public class Database {
         pstmt.setString(2, timeslot);
         pstmt.setString(3, room);
         pstmt.setInt(4, Integer.parseInt(classId));
-        rs = pstmt.executeQuery();
+        pstmt.executeUpdate();
+        conn.commit();
     }
 
     /**
      * Helper method to create a linked list of classes from the data currently stored in the ResultSet variable.
      * @return
      * @throws SQLException
+     * @author John
      */
-    public LinkedList<Classes> findClasses() throws SQLException{
-        LinkedList<Classes> classes = new LinkedList<>();
+    public LinkedList<ClassRecord> findClasses() throws SQLException{
+        LinkedList<ClassRecord> classes = new LinkedList<>();
         int class_id = -1;
         String name = "";
         String time = "";
@@ -526,13 +568,24 @@ public class Database {
             obj = rs.getObject(4);
             if(!rs.wasNull())
                 room = obj.toString();
-            classes.add(new Classes(class_id, name, time, room));
+            classes.add(new ClassRecord(class_id, name, time, room));
         }
         return classes;
     }
-//    public List<EquipmentRecord> getEquipment(String type, String room, String status, String maintDate){
-//        
-//    }    
+    
+    public int getMaxIdEmp() throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("SELECT MAX(emp_id) FROM Employee");
+        rs.next();
+        return rs.getInt(1);
+    }
+    
+    public int getMaxIdClass() throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("SELECT MAX(class_id) FROM class");
+        rs.next();
+        return rs.getInt(1);
+    }
     
     @Override
     public void finalize(){

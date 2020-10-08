@@ -20,7 +20,7 @@
             </Menu>
          </menus>
       </MenuBar>
-      <TabPane layoutX="100.0" layoutY="64.0" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
+      <TabPane layoutX="100.0" layoutY="64.0" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
         <tabs>
           <Tab text="Employees">
                <content>
@@ -38,12 +38,12 @@
                                                    <children>
                                                       <VBox alignment="CENTER" prefHeight="331.0" prefWidth="295.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
-                                                            <TextField fx:id="eStartTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM">
+                                                            <TextField fx:id="eStartTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM:SS">
                                                                <VBox.margin>
                                                                   <Insets top="10.0" />
                                                                </VBox.margin>
                                                             </TextField>
-                                                            <TextField fx:id="eEndTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="End Time HH:MM">
+                                                            <TextField fx:id="eEndTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="End Time HH:MM:SS">
                                                                <VBox.margin>
                                                                   <Insets top="10.0" />
                                                                </VBox.margin>
@@ -70,7 +70,7 @@
                                                                   <Insets top="10.0" />
                                                                </VBox.margin>
                                                             </ComboBox>
-                                                            <Button fx:id="viewEmp" mnemonicParsing="false" onAction="#getEmployees" text="Get Employees">
+                                                            <Button fx:id="viewEmp" mnemonicParsing="false" text="Get Employees">
                                                                <VBox.margin>
                                                                   <Insets top="20.0" />
                                                                </VBox.margin>
@@ -147,12 +147,12 @@
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="eStarTIme" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM">
+                                                <TextField fx:id="eStarTIme" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM:SS">
                                                    <VBox.margin>
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="eEndTime" maxWidth="218.0" prefWidth="218.0" promptText="End Time HH:MM">
+                                                <TextField fx:id="eEndTime" maxWidth="218.0" prefWidth="218.0" promptText="End Time HH:MM:SS">
                                                    <VBox.margin>
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
@@ -217,12 +217,12 @@
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="eStarTImeUpdate" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM">
+                                                <TextField fx:id="eStarTImeUpdate" maxWidth="218.0" prefWidth="218.0" promptText="Start Time HH:MM:SS">
                                                    <VBox.margin>
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
                                                 </TextField>
-                                                <TextField fx:id="eEndTimeUpdate" maxWidth="218.0" prefWidth="218.0" promptText="End Time HH:MM">
+                                                <TextField fx:id="eEndTimeUpdate" maxWidth="218.0" prefWidth="218.0" promptText="End Time HH:MM:SS">
                                                    <VBox.margin>
                                                       <Insets top="10.0" />
                                                    </VBox.margin>
@@ -267,7 +267,7 @@
                                     <VBox alignment="CENTER" prefHeight="331.0" prefWidth="295.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <TextField fx:id="cNameGet" maxWidth="218.0" prefWidth="218.0" promptText="Class Name" />
-                                          <TextField fx:id="cTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="TIme Slot HH:MM" />
+                                          <TextField fx:id="cTimeGet" maxWidth="218.0" prefWidth="218.0" promptText="TIme Slot HH:MM:SS" />
                                           <ComboBox fx:id="cRoom" prefHeight="31.0" prefWidth="218.0" promptText="Room" />
                                           <ComboBox fx:id="cTeachers" prefHeight="31.0" prefWidth="218.0" promptText="Taught by" />
                                           <Button fx:id="viewClass" mnemonicParsing="false" onAction="#getClasses" text="Get Class" />
@@ -284,7 +284,7 @@
                                                 <Insets top="10.0" />
                                              </VBox.margin>
                                           </TextField>
-                                          <TextField fx:id="cTimeSet" maxWidth="218.0" prefWidth="218.0" promptText="TIme Slot HH:MM">
+                                          <TextField fx:id="cTimeSet" maxWidth="218.0" prefWidth="218.0" promptText="TIme Slot HH:MM:SS">
                                              <VBox.margin>
                                                 <Insets top="10.0" />
                                              </VBox.margin>
@@ -294,7 +294,7 @@
                                                 <Insets top="10.0" />
                                              </VBox.margin>
                                           </ComboBox>
-                                          <Button fx:id="addClass" mnemonicParsing="false" text="Add">
+                                          <Button mnemonicParsing="false" onAction="#addClass" text="Add">
                                              <VBox.margin>
                                                 <Insets top="10.0" />
                                              </VBox.margin>
@@ -334,7 +334,7 @@
                                           </ComboBox>
                                           <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
                                              <children>
-                                                <Button fx:id="addClass1" alignment="CENTER" mnemonicParsing="false" text="Update" />
+                                                <Button alignment="CENTER" mnemonicParsing="false" onAction="#updateClass" text="Update" />
                                                 <Button mnemonicParsing="false" onAction="#deleteClass" text="Delete">
                                                    <HBox.margin>
                                                       <Insets left="10.0" />
@@ -438,7 +438,7 @@
                                           </TextField>
                                           <HBox maxWidth="218.0" prefHeight="31.0" prefWidth="218.0">
                                              <children>
-                                                <Button fx:id="addEquipt1" alignment="CENTER" mnemonicParsing="false" text="Update" />
+                                                <Button fx:id="addEquipt1" alignment="CENTER" mnemonicParsing="false" onAction="#updateEquipment" text="Update" />
                                                 <Button mnemonicParsing="false" onAction="#deleteEquip" text="Delete">
                                                    <HBox.margin>
                                                       <Insets left="10.0" />
@@ -461,5 +461,6 @@
             </Tab>
         </tabs>
       </TabPane>
+      <Button layoutX="413.0" layoutY="481.0" mnemonicParsing="false" onAction="#setDatabase" text="Reset Drop-Down Feilds" />
    </children>
 </AnchorPane>

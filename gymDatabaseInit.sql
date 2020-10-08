@@ -56,7 +56,7 @@ create table equipment(
 	equip_id int primary key,
     equip_type varchar(15),
 	room varchar(15),
-    date datetime,
+    date date,
     equip_status varchar(256),
     foreign key(room) references room(room_name)
 );
