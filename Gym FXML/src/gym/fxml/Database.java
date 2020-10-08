@@ -649,6 +649,166 @@ public class Database {
         pstmt.executeUpdate();
         conn.commit();
     }
+	
+	    /**
+     * Takes non-prime attributes of the equipment table as input and returns a list of equipment based on the values of the
+     * non-null inputs.
+     * @param type
+     * @param room
+     * @param status
+     * @param date
+     * @return
+     * @throws SQLException
+     */
+
+    //(String type, String room, String status, String date )
+    public LinkedList<EquipmentRecord> getEquipment(String type, String room, String status, String date)
+            throws SQLException {
+        //Query to find all equipment
+        if(type == null && room == null && status == null && date == null) {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM equipment");
+            return findEquipment();
+        }
+        //Query to find all equipment on a given date
+        else if(type == null && room == null && status == null && date != null){
+            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
+                    "date = ?");
+            pstmt.setString(1, date);
+            rs = pstmt.executeQuery();
+            return findEquipment();
+        }
+        //Query equipment by status
+        else if(type == null && room == null && status != null && date == null){
+            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE status = ?");
+            pstmt.setString(1, status);
+            rs = pstmt.executeQuery();
+            return findEquipment();
+        }
+        //Query equipment by room
+        else if(type == null && room != null && status == null && date == null){
+            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE room = ?");
+            pstmt.setString(1, room);
+            rs = pstmt.executeQuery();
+            return findEquipment();
+        }
+        //Query equipment by type and room
+        else if(type != null && room != null && status == null && date == null){
+            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE type = ? AND room = ?");
+            pstmt.setString(1, type);
+            pstmt.setString(2, room);
+            rs = pstmt.executeQuery();
+            return findEquipment();
+        }
+        //Query equipment by type and status
+        else if(type != null && room == null && status != null && date == null){
+            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE type = ? AND status = ?");
+            pstmt.setString(1, type);
+            pstmt.setString(2, status);
+            rs = pstmt.executeQuery();
+            return findEquipment();
+        }
+        //Query equipment by type and date
+        else if(type != null && room == null && status == null && date != null){
+            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
+                    "type = ? AND date = ?");
+            pstmt.setString(1, type);
+            pstmt.setString(2, date);
+            rs = pstmt.executeQuery();
+            return findEquipment();
+        }
+        //Query equipment by status and date
+        else if(type == null && room == null && status != null && date != null){
+            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE status = ? AND date = ?");
+            pstmt.setString(1, status);
+            pstmt.setString(2, date);
+            rs = pstmt.executeQuery();
+            return findEquipment();
+        }
+        //Query equipment by room and date
+        else if(type == null && room != null && status == null && date != null){
+            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
+                    " room = ? AND date = ?");
+            pstmt.setString(1, room);
+            pstmt.setString(2, date);
+            rs = pstmt.executeQuery();
+            return findEquipment();
+        }
+        //Query equipment by type, room, and date
+        else if(type != null && room != null && status == null && date != null){
+            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
+                    "type = ? AND room = ? AND date = ?");
+            pstmt.setString(1, type);
+            pstmt.setString(2, room);
+            pstmt.setString(3, date);
+            rs = pstmt.executeQuery();
+            return findEquipment();
+        }
+        //Query equipment by type, status, and date
+        else if(type != null && room == null && status != null && date != null){
+            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
+                    "type = ? AND status = ? AND date = ?");
+            pstmt.setString(1, type);
+            pstmt.setString(2, status);
+            pstmt.setString(3, date);
+            rs = pstmt.executeQuery();
+            return findEquipment();
+        }
+        //Query equipment by room, status, and date
+        else if(type == null && room != null && status != null && date != null){
+            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
+                    "room = ? AND status = ? AND date = ?");
+            pstmt.setString(1, room);
+            pstmt.setString(2, status);
+            pstmt.setString(3, date);
+            rs = pstmt.executeQuery();
+            return findEquipment();
+        }
+        //Query equipment by type, room, and status
+        else if(type != null && room != null && status != null && date == null){
+            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE type = ? AND status = ? AND room = ?");
+            pstmt.setString(1, type);
+            pstmt.setString(2, status);
+            pstmt.setString(3, room);
+            rs = pstmt.executeQuery();
+            return findEquipment();
+        }
+        else return new LinkedList<EquipmentRecord>();
+
+    }
+
+    /**
+     * Helper method to create a linked list of equipment from the data currently stored in the ResultSet variable.
+     * @return
+     * @throws SQLException
+     */
+    public LinkedList<EquipmentRecord> findEquipment() throws SQLException{
+        LinkedList<EquipmentRecord> equipment = new LinkedList<>();
+        int equipment_id = -1;
+        String type = "";
+        String room = "";
+        String status = "";
+        String date = "";
+        while(rs.next()){
+            Object obj = rs.getObject(1);
+            if (!rs.wasNull())
+                equipment_id = Integer.parseInt(obj.toString());
+            obj = rs.getObject(2);
+            if (!rs.wasNull())
+                type = obj.toString();
+            obj = rs.getObject(3);
+            if(!rs.wasNull())
+                room = obj.toString();
+            obj = rs.getObject(4);
+            if(!rs.wasNull())
+                status = obj.toString();
+            obj = rs.getObject(5);
+            if(!rs.wasNull())
+                date = obj.toString();
+            equipment.add(new EquipmentRecord(equipment_id, type, room, status, date));
+        }
+        return equipment;
+    }
     /**
      * 
      * @param id
