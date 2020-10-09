@@ -159,6 +159,18 @@ public class Database {
         rs.close();
         stmt.close();
         return classes;
+    }    
+    public List<String> getRooms(Boolean t)throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("select room_name "
+                             + "from room");
+        ArrayList<String> classes = new ArrayList<>();
+        while (rs.next()) {
+           classes.add(rs.getString(1));
+        }
+        rs.close();
+        stmt.close();
+        return classes;
     }
     
     public List<DropDownItem> getEmpByIDs()throws Exception{
@@ -937,6 +949,19 @@ public class Database {
         pstmt.setString(4, date);
         pstmt.setString(5, status);
         pstmt.executeUpdate();
+        conn.commit();
+    }
+    public void addRoom(String room)throws Exception{
+        stmt = conn.createStatement();
+        stmt.executeUpdate("INSERT INTO room VALUES ('"+room+"')");
+        conn.commit();
+    }
+    public void deletRoom(String room)throws Exception{
+        stmt = conn.createStatement();
+        stmt.executeUpdate("DELETE FROM equipment WHERE room='"+room+"'");
+        stmt.executeUpdate("DELETE FROM conducts WHERE class_id IN (Select class_id from class where held_in='"+room+"')");
+        stmt.executeUpdate("DELETE FROM class WHERE held_in='"+room+"'");
+        stmt.executeUpdate("DELETE FROM room WHERE room_name='"+room+"'");
         conn.commit();
     }
     

@@ -13,13 +13,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 /**
  * FXML Controller class
@@ -57,7 +55,7 @@ public class QueryPageController extends Controller implements Initializable {
     @FXML private ComboBox<DropDownItem> cRoomUpdate, cID, eSID;
     @FXML private ComboBox<String> skills;
     @FXML private ComboBox<DropDownItem> equRoomUpdate, eIDTeach, tID, tClass;
-    @FXML private ComboBox<String> equTypeUpdate, equStatusUpdate, equStatus, equType;
+    @FXML private ComboBox<String> equTypeUpdate, equStatusUpdate, equStatus, equType, room;
     @FXML private TextField equMaintDateUpdate;
     @FXML private CheckBox supCheckUpdate;
     
@@ -81,11 +79,9 @@ public class QueryPageController extends Controller implements Initializable {
             classList = data.getClasses();
             trainerList = data.getTrainers();
             roomList = data.getRooms();
-            
             classes = FXCollections.observableList(classList);
             trainers = FXCollections.observableList(trainerList);
-            rooms = FXCollections.observableList(roomList);
-            
+            rooms = FXCollections.observableList(roomList);            
             
             eTeaches.getItems().clear();
             eTeachesAdd.getItems().clear();
@@ -106,6 +102,7 @@ public class QueryPageController extends Controller implements Initializable {
             skills.getItems().clear();
             tID.getItems().clear();
             tClass.getItems().clear();
+            room.getItems().clear();
             
             eTeaches.setItems(classes);
             eTeachesAdd.setItems(FXCollections.observableList(data.getClassIds()));
@@ -125,6 +122,7 @@ public class QueryPageController extends Controller implements Initializable {
             eSID.setItems(FXCollections.observableList(data.getEmpByIDs()));
             tID.setItems(trainers);
             tClass.setItems(FXCollections.observableList(data.getClassByIDs()));
+            room.setItems(FXCollections.observableList(data.getRooms(true)));
             
         }
         catch (Exception e){
@@ -703,7 +701,7 @@ public class QueryPageController extends Controller implements Initializable {
             if((start=eStartTimeGet.getText().trim()).isEmpty()||!start.matches("\\d{2}:\\d{2}:\\d{2}")) start=null;
             if((end=eEndTimeGet.getText().trim()).isEmpty()||!end.matches("\\d{2}:\\d{2}:\\d{2}")) end=null;
             if(eTeaches.getValue()!=null) class_name=eTeaches.getValue().getName();
-            System.out.println(class_name);
+            //System.out.println(class_name);
             List<EmployeeRecord> list = data.getEmployees(start, end, class_name, superv);
             String result = String.format("%5s %15s %15s %10s %11s %11s %11s", "Emp_ID", "FirstName", "LastName", "SSN", "Phone", "Start Time", "End Time");
             for(EmployeeRecord emp: list){
@@ -790,6 +788,43 @@ public class QueryPageController extends Controller implements Initializable {
             data.addSkill(eSID.getValue().getId(), skills.getValue());
             getSkillsByID();
             inform("Skill added successfully");
+        }catch(Exception e){
+            e.printStackTrace();
+            error(e.getMessage());
+        }
+    }
+    
+    @FXML public void addRoom(){
+        try{
+            String nRoom = room.getEditor().getText();
+            if(nRoom.isEmpty()){
+                error("Please enter a new room");
+                return;
+            }
+            data.addRoom(nRoom);
+            inform("Room added");
+            room.getEditor().clear();
+            setDatabase();            
+        }catch(Exception e){
+            e.printStackTrace();
+            error(e.getMessage());
+        }
+    }
+    @FXML public void deleteRoom(){
+        try{
+            if(room.getValue()==null||room.getValue().isEmpty()){
+                error("Please select a room");
+                return;
+            }
+            String nRoom = room.getValue();
+            if(nRoom.isEmpty()){
+                error("Please enter a new room");
+                return;
+            }
+            data.deletRoom(nRoom);
+            inform("Room Deleted");
+            room.getEditor().clear();
+            setDatabase();            
         }catch(Exception e){
             e.printStackTrace();
             error(e.getMessage());
