@@ -32,14 +32,13 @@ public class QueryPageController extends Controller implements Initializable {
     @FXML private Button addEquipt, addEmp;
     @FXML private CheckBox eTrainCheck, eSupCheck, eSupCheckAdd;
     @FXML private TextField efname, elname, cNameGet, cTimeSet;
-    @FXML private ComboBox<DropDownItem> equStatus, equRoom;
-    @FXML private DatePicker equMaint;
+    @FXML private ComboBox<DropDownItem> equRoom;
+    @FXML private TextField equMaint;
     @FXML private TextField cNameSet;
     @FXML private TextField cTimeGet;
     @FXML private Button addClass;
     @FXML private TextField eStartTimeGet;
     @FXML private TextField eEndTime;
-    @FXML private ComboBox<DropDownItem> equType;
     @FXML private TextField essn;
     @FXML private ComboBox<DropDownItem> eTeachesAdd;
     @FXML private MenuBar menu;
@@ -58,7 +57,7 @@ public class QueryPageController extends Controller implements Initializable {
     @FXML private ComboBox<DropDownItem> cRoomUpdate, cID, eSID;
     @FXML private ComboBox<String> skills;
     @FXML private ComboBox<DropDownItem> equRoomUpdate, eIDTeach, tID, tClass;
-    @FXML private ComboBox<String> equTypeUpdate, equStatusUpdate;
+    @FXML private ComboBox<String> equTypeUpdate, equStatusUpdate, equStatus, equType;
     @FXML private TextField equMaintDateUpdate;
     @FXML private CheckBox supCheckUpdate;
     
@@ -113,9 +112,9 @@ public class QueryPageController extends Controller implements Initializable {
             cRoom.setItems(rooms);
             cTeachers.setItems(trainers);
             cRoomSet.setItems(rooms);
-            equType.setItems(FXCollections.observableList(data.getEquTypes()));
+            equType.setItems(FXCollections.observableList(data.getEquTypes(true)));
             equRoom.setItems(rooms);
-            equStatus.setItems(FXCollections.observableList(data.getEquStatuses()));
+            equStatus.setItems(FXCollections.observableList(data.getEquStatuses(true)));
             eID.setItems(FXCollections.observableList(data.getEmpByIDs()));
             equID.setItems(FXCollections.observableList(data.getEquByIDs()));
             equTypeUpdate.setItems(FXCollections.observableList(data.getEquTypes(true)));
@@ -717,6 +716,86 @@ public class QueryPageController extends Controller implements Initializable {
             error(e.getMessage());
         }
     }
+    
+    @FXML public void getEquiptment(){
+        try{
+            String type = equType.getValue();
+            String status = equStatus.getValue();
+            String mDate = equMaint.getText().trim();
+            if(mDate.isEmpty()) mDate=null;
+            else if(!mDate.matches("\\d{4}-\\d{2}-\\d{2}")){
+                inform("Please enter the date in the format YYYY-MM-DD");
+                return;
+            }
+            String room;
+            if(equRoom.getValue()!=null) room = equRoom.getValue().getName();
+            else room=null;
+            List<EquipmentRecord> list = data.getEquipment(type, room, status, mDate);
+            String result = String.format("%5s %15s %15s %20s     %-256s", "ID", "Type", "Room", "Next Maintanance", "Status");
+            for(EquipmentRecord equ: list){
+                result = result.concat(equ.toString());
+            }
+            popup(result);
+            setDatabase();
+        }catch(Exception e){
+            e.printStackTrace();
+            error(e.getMessage());
+        }
+    }
+    @FXML public void addEquipment(){
+        try{
+            String type;
+            String status;
+            if(equType.getValue()==null){
+                    error("Please select or enter Equipment type");
+                    return;
+            }else{
+                type=equType.getValue();
+            }
+            if(equRoom.getValue()==null){
+                error("Please select a room");
+                return;
+            }
+            if(equStatus.getValue()==null){
+                    error("Please select or enter Equipment status");
+                    return;
+            }else{
+                status=equStatus.getValue();
+            }
+            String mDate = equMaint.getText().trim();
+            if(mDate.isEmpty()){
+                error("Please enter the next Maintanance Date");
+                return;
+            }
+            if(!mDate.matches("\\d{4}-\\d{2}-\\d{2}")){
+                error("Please enter the date in the format YYYY-MM-DD");
+                return;
+            }
+            String id = Integer.toString(data.getMaxIdEquip())+1;
+            String room = equRoom.getValue().getName();
+            data.addEquipment(id, type, room, mDate, status);
+            inform("Added Successfully"); 
+            setDatabase();
+        }catch(Exception e){
+            e.printStackTrace();
+            error(e.getMessage());
+        }
+    }
+    @FXML public void addSkill(){
+        try{
+            if(eSID.getValue()==null||skills.getValue()==null) {
+                error("Please select employee, skill combo");
+                return;
+            }
+            data.addSkill(eSID.getValue().getId(), skills.getValue());
+            getSkillsByID();
+            inform("Skill added successfully");
+        }catch(Exception e){
+            e.printStackTrace();
+            error(e.getMessage());
+        }
+    }
+    
     /**
      * Initializes the controller class.
      */

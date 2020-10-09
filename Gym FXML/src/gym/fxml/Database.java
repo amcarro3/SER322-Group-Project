@@ -620,7 +620,7 @@ public class Database {
             queryCon = queryCon.concat(" and e.emp_id= s.emp_id");
         }
         String query = queryfrom+queryCon;
-        System.out.println(query);
+        //System.out.println(query);
         stmt= conn.createStatement();
         rs = stmt.executeQuery(query);
         ArrayList<EmployeeRecord> list = new ArrayList<>();
@@ -664,117 +664,136 @@ public class Database {
     //(String type, String room, String status, String date )
     public LinkedList<EquipmentRecord> getEquipment(String type, String room, String status, String date)
             throws SQLException {
-        //Query to find all equipment
-        if(type == null && room == null && status == null && date == null) {
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM equipment");
+//        //Query to find all equipment
+//        if(type == null && room == null && status == null && date == null) {
+//            stmt = conn.createStatement();
+//            rs = stmt.executeQuery("SELECT * FROM equipment");
+//            return findEquipment();
+//        }
+//        //Query to find all equipment on a given date
+//        else if(type == null && room == null && status == null && date != null){
+//            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
+//                    "date = ?");
+//            pstmt.setString(1, date);
+//            rs = pstmt.executeQuery();
+//            return findEquipment();
+//        }
+//        //Query to find all equipment of a type
+//        else if(type != null && room == null && status == null && date == null){
+//            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
+//                    "equip_type = ?");
+//            pstmt.setString(1, type);
+//            rs = pstmt.executeQuery();
+//            return findEquipment();
+//        }
+//        //Query equipment by status
+//        else if(type == null && room == null && status != null && date == null){
+//            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE equip_status = ?");
+//            pstmt.setString(1, status);
+//            rs = pstmt.executeQuery();
+//            return findEquipment();
+//        }
+//        //Query equipment by room
+//        else if(type == null && room != null && status == null && date == null){
+//            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE room = ?");
+//            pstmt.setString(1, room);
+//            rs = pstmt.executeQuery();
+//            return findEquipment();
+//        }
+//        //Query equipment by type and room
+//        else if(type != null && room != null && status == null && date == null){
+//            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE equip_type = ? AND room = ?");
+//            pstmt.setString(1, type);
+//            pstmt.setString(2, room);
+//            rs = pstmt.executeQuery();
+//            return findEquipment();
+//        }
+//        //Query equipment by type and status
+//        else if(type != null && room == null && status != null && date == null){
+//            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE equip_type = ? AND equip_status = ?");
+//            pstmt.setString(1, type);
+//            pstmt.setString(2, status);
+//            rs = pstmt.executeQuery();
+//            return findEquipment();
+//        }
+//        //Query equipment by type and date
+//        else if(type != null && room == null && status == null && date != null){
+//            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
+//                    "equip_type = ? AND date = ?");
+//            pstmt.setString(1, type);
+//            pstmt.setString(2, date);
+//            rs = pstmt.executeQuery();
+//            return findEquipment();
+//        }
+//        //Query equipment by status and date
+//        else if(type == null && room == null && status != null && date != null){
+//            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE equip_status = ? AND date = ?");
+//            pstmt.setString(1, status);
+//            pstmt.setString(2, date);
+//            rs = pstmt.executeQuery();
+//            return findEquipment();
+//        }
+//        //Query equipment by room and date
+//        else if(type == null && room != null && status == null && date != null){
+//            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
+//                    " room = ? AND date = ?");
+//            pstmt.setString(1, room);
+//            pstmt.setString(2, date);
+//            rs = pstmt.executeQuery();
+//            return findEquipment();
+//        }
+//        //Query equipment by type, room, and date
+//        else if(type != null && room != null && status == null && date != null){
+//            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
+//                    "equip_type = ? AND room = ? AND date = ?");
+//            pstmt.setString(1, type);
+//            pstmt.setString(2, room);
+//            pstmt.setString(3, date);
+//            rs = pstmt.executeQuery();
+//            return findEquipment();
+//        }
+//        //Query equipment by type, status, and date
+//        else if(type != null && room == null && status != null && date != null){
+//            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
+//                    "equip_type = ? AND equip_status = ? AND date = ?");
+//            pstmt.setString(1, type);
+//            pstmt.setString(2, status);
+//            pstmt.setString(3, date);
+//            rs = pstmt.executeQuery();
+//            return findEquipment();
+//        }
+//        //Query equipment by room, status, and date
+//        else if(type == null && room != null && status != null && date != null){
+//            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
+//                    "room = ? AND equip_status = ? AND date = ?");
+//            pstmt.setString(1, room);
+//            pstmt.setString(2, status);
+//            pstmt.setString(3, date);
+//            rs = pstmt.executeQuery();
+//            return findEquipment();
+//        }
+//        //Query equipment by type, room, and status
+//        else if(type != null && room != null && status != null && date == null){
+//            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE equip_type = ? AND equip_status = ? AND room = ?");
+//            pstmt.setString(1, type);
+//            pstmt.setString(2, status);
+//            pstmt.setString(3, room);
+//            rs = pstmt.executeQuery();
+//            return findEquipment();
+//        }
+//        else{
+            String queryfrom = "Select * from equipment";
+            String queryCon = " where equip_id=equip_id";
+            if(type!=null) queryCon = queryCon.concat(" and equip_type='"+type+"'");
+            if(status!=null) queryCon = queryCon.concat(" and equip_status='"+status+"'");
+            if(room!=null) queryCon = queryCon.concat(" and room='"+room+"'");
+            if(date!=null) queryCon = queryCon.concat(" and date='"+date+"'");
+            String query = queryfrom+queryCon;
+            //System.out.println(query);
+            stmt= conn.createStatement();
+            rs = stmt.executeQuery(query);
             return findEquipment();
-        }
-        //Query to find all equipment on a given date
-        else if(type == null && room == null && status == null && date != null){
-            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
-                    "date = ?");
-            pstmt.setString(1, date);
-            rs = pstmt.executeQuery();
-            return findEquipment();
-        }
-        //Query equipment by status
-        else if(type == null && room == null && status != null && date == null){
-            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE status = ?");
-            pstmt.setString(1, status);
-            rs = pstmt.executeQuery();
-            return findEquipment();
-        }
-        //Query equipment by room
-        else if(type == null && room != null && status == null && date == null){
-            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE room = ?");
-            pstmt.setString(1, room);
-            rs = pstmt.executeQuery();
-            return findEquipment();
-        }
-        //Query equipment by type and room
-        else if(type != null && room != null && status == null && date == null){
-            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE type = ? AND room = ?");
-            pstmt.setString(1, type);
-            pstmt.setString(2, room);
-            rs = pstmt.executeQuery();
-            return findEquipment();
-        }
-        //Query equipment by type and status
-        else if(type != null && room == null && status != null && date == null){
-            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE type = ? AND status = ?");
-            pstmt.setString(1, type);
-            pstmt.setString(2, status);
-            rs = pstmt.executeQuery();
-            return findEquipment();
-        }
-        //Query equipment by type and date
-        else if(type != null && room == null && status == null && date != null){
-            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
-                    "type = ? AND date = ?");
-            pstmt.setString(1, type);
-            pstmt.setString(2, date);
-            rs = pstmt.executeQuery();
-            return findEquipment();
-        }
-        //Query equipment by status and date
-        else if(type == null && room == null && status != null && date != null){
-            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE status = ? AND date = ?");
-            pstmt.setString(1, status);
-            pstmt.setString(2, date);
-            rs = pstmt.executeQuery();
-            return findEquipment();
-        }
-        //Query equipment by room and date
-        else if(type == null && room != null && status == null && date != null){
-            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
-                    " room = ? AND date = ?");
-            pstmt.setString(1, room);
-            pstmt.setString(2, date);
-            rs = pstmt.executeQuery();
-            return findEquipment();
-        }
-        //Query equipment by type, room, and date
-        else if(type != null && room != null && status == null && date != null){
-            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
-                    "type = ? AND room = ? AND date = ?");
-            pstmt.setString(1, type);
-            pstmt.setString(2, room);
-            pstmt.setString(3, date);
-            rs = pstmt.executeQuery();
-            return findEquipment();
-        }
-        //Query equipment by type, status, and date
-        else if(type != null && room == null && status != null && date != null){
-            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
-                    "type = ? AND status = ? AND date = ?");
-            pstmt.setString(1, type);
-            pstmt.setString(2, status);
-            pstmt.setString(3, date);
-            rs = pstmt.executeQuery();
-            return findEquipment();
-        }
-        //Query equipment by room, status, and date
-        else if(type == null && room != null && status != null && date != null){
-            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE " +
-                    "room = ? AND status = ? AND date = ?");
-            pstmt.setString(1, room);
-            pstmt.setString(2, status);
-            pstmt.setString(3, date);
-            rs = pstmt.executeQuery();
-            return findEquipment();
-        }
-        //Query equipment by type, room, and status
-        else if(type != null && room != null && status != null && date == null){
-            pstmt = conn.prepareStatement("SELECT * FROM equipment WHERE type = ? AND status = ? AND room = ?");
-            pstmt.setString(1, type);
-            pstmt.setString(2, status);
-            pstmt.setString(3, room);
-            rs = pstmt.executeQuery();
-            return findEquipment();
-        }
-        else return new LinkedList<EquipmentRecord>();
-
+//        }
     }
 
     /**
@@ -897,7 +916,12 @@ public class Database {
         rs.next();
         return rs.getInt(1);
     }
-    
+    public int getMaxIdEquip() throws Exception{
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery("SELECT MAX(equip_id) FROM equipment");
+        rs.next();
+        return rs.getInt(1);
+    }
     public int getMaxIdClass() throws Exception{
         stmt = conn.createStatement();
         rs = stmt.executeQuery("SELECT MAX(class_id) FROM class");
@@ -905,6 +929,22 @@ public class Database {
         return rs.getInt(1);
     }
     
+    public void addEquipment(String id, String type, String room, String date, String status)throws Exception{
+        pstmt = conn.prepareStatement("INSERT INTO equipment values (?,?,?,?,?)");
+        pstmt.setString(1, id);
+        pstmt.setString(2, type);
+        pstmt.setString(3, room);
+        pstmt.setString(4, date);
+        pstmt.setString(5, status);
+        pstmt.executeUpdate();
+        conn.commit();
+    }
+    
+    public void addSkill(int emp_id, String skill)throws Exception{
+        stmt= conn.createStatement();
+        stmt.executeUpdate("INSERT INTO skills VALUES ("+emp_id+", '"+skill+"')");
+        conn.commit();
+    }
     @Override
     public void finalize(){
         closeConnection();

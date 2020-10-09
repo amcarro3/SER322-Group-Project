@@ -95,7 +95,7 @@
                                                             </ComboBox>
                                                             <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
                                                                <children>
-                                                                  <Button mnemonicParsing="false" text="Add Skill">
+                                                                  <Button mnemonicParsing="false" onAction="#addSkill" text="Add Skill">
                                                                      <HBox.margin>
                                                                         <Insets left="10.0" />
                                                                      </HBox.margin>
@@ -408,25 +408,25 @@
                                                 <Insets top="10.0" />
                                              </VBox.margin>
                                           </ComboBox>
+                                          <ComboBox fx:id="equStatus" editable="true" prefHeight="31.0" prefWidth="218.0" promptText="Status">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </ComboBox>
                                           <ComboBox fx:id="equRoom" prefHeight="31.0" prefWidth="218.0" promptText="Room">
                                              <VBox.margin>
                                                 <Insets top="10.0" />
                                              </VBox.margin>
                                           </ComboBox>
-                                          <ComboBox fx:id="equStatus" prefHeight="31.0" prefWidth="218.0" promptText="Status">
+                                          <TextField fx:id="equMaint" maxWidth="218.0" prefWidth="218.0" promptText="Maintanance Date">
                                              <VBox.margin>
                                                 <Insets top="10.0" />
                                              </VBox.margin>
-                                          </ComboBox>
-                                          <DatePicker fx:id="equMaint" promptText="Mantanace Date">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </DatePicker>
+                                          </TextField>
                                           <HBox maxWidth="218.0" prefHeight="31.0" prefWidth="218.0">
                                              <children>
-                                                <Button fx:id="addEquipt" alignment="CENTER" mnemonicParsing="false" text="Add" />
-                                                <Button fx:id="viewEquipt" mnemonicParsing="false" text="View">
+                                                <Button fx:id="addEquipt" alignment="CENTER" mnemonicParsing="false" onAction="#addEquipment" text="Add" />
+                                                <Button fx:id="viewEquipt" mnemonicParsing="false" onAction="#getEquiptment" text="View">
                                                    <HBox.margin>
                                                       <Insets left="10.0" />
                                                    </HBox.margin>
@@ -499,6 +499,6 @@
             </Tab>
         </tabs>
       </TabPane>
-      <Button layoutX="413.0" layoutY="481.0" mnemonicParsing="false" onAction="#setDatabase" text="Reset Drop-Down Feilds" />
+      <Button layoutX="410.0" layoutY="471.0" mnemonicParsing="false" onAction="#setDatabase" text="Reset Drop-Down Feilds" AnchorPane.bottomAnchor="0.0" />
    </children>
 </AnchorPane>

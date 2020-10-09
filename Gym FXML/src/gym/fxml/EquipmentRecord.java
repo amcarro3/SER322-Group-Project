@@ -57,4 +57,9 @@ public class EquipmentRecord {
     public void setStatus(String status) {
         this.status = status;
     }
+    
+    @Override
+    public String toString(){
+        return String.format("%n%5d %15s %15s %20s     %-256s", id, type, room, date, status);
+    }
 }
