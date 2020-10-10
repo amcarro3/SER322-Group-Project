@@ -1,4 +1,3 @@
-DROP DATABASE gym;
 Create database Gym;
 Use Gym;
 

@@ -11,6 +11,10 @@ public class ClassRecord {
     private String name;
     private String time;
     private String room;
+    
+    public ClassRecord(){
+        
+    }
 
     public ClassRecord(int id, String name, String time, String room) {
         this.id = id;

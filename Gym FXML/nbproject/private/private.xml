@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Documents/School/SER322/Gym%20FXML/src/gym/fxml/DatabaseDriverController.java</file>
-            <file>file:/D:/Documents/School/SER322/Gym%20FXML/src/gym/fxml/GymFXML.java</file>
-            <file>file:/D:/Documents/School/SER322/Gym%20FXML/src/gym/fxml/Controller.java</file>
-            <file>file:/D:/Documents/School/SER322/Gym%20FXML/src/gym/fxml/LoginController.java</file>
-            <file>file:/D:/Documents/School/SER322/Gym%20FXML/src/gym/fxml/QueryPageController.java</file>
-            <file>file:/D:/Documents/School/SER322/Gym%20FXML/src/gym/fxml/Database.java</file>
+            <file>file:/D:/Documents/School/SER322/Gitrepo/SER322-Group-Project/Gym%20FXML/src/gym/fxml/Database.java</file>
+            <file>file:/D:/Documents/School/SER322/Gitrepo/SER322-Group-Project/Gym%20FXML/src/gym/fxml/QueryPageController.java</file>
+            <file>file:/D:/Documents/School/SER322/Gitrepo/SER322-Group-Project/Gym%20FXML/src/gym/fxml/ClassRecord.java</file>
+            <file>file:/D:/Documents/School/SER322/Gitrepo/SER322-Group-Project/Gym%20FXML/src/gym/fxml/EmployeeRecord.java</file>
+            <file>file:/D:/Documents/School/SER322/Gitrepo/SER322-Group-Project/Gym%20FXML/src/gym/fxml/EquipmentRecord.java</file>
         </group>
     </open-files>
 </project-private>

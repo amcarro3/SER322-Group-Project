@@ -9,6 +9,8 @@ public class EquipmentRecord {
     private String  room;
     private String date;
     private String status;
+    
+    public EquipmentRecord(){}
 
     public EquipmentRecord(int id, String type, String room, String date, String status) {
         this.id = id;

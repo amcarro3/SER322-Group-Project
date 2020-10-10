@@ -315,8 +315,9 @@ public class Database {
         rs = stmt.executeQuery("SELECT e.equip_id, e.equip_type, e.room, e.date, e.equip_status "
                              + "FROM equipment as e "
                              + "WHERE e.equip_id = " + equ_id);
-        rs.next();
-        EquipmentRecord equ = new EquipmentRecord(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+        EquipmentRecord equ;
+        if(rs.next())equ = new EquipmentRecord(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+        else equ = new EquipmentRecord();
         rs.close();
         stmt.close();
         return equ;
@@ -326,8 +327,9 @@ public class Database {
         rs = stmt.executeQuery("SELECT c.* "
                              + "FROM class as c "
                              + "WHERE c.class_id = " + class_id);
-        rs.next();
-        ClassRecord classes = new ClassRecord(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+        ClassRecord classes;
+        if(rs.next()) classes = new ClassRecord(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+        else classes = new ClassRecord();
         rs.close();
         stmt.close();
         return classes;
@@ -621,8 +623,8 @@ public class Database {
     public List<EmployeeRecord> getEmployees(String start, String end, String class_name, Boolean supers)throws Exception{
         String queryfrom = "Select e.emp_id, e.fname, e.lname, e.ssn, e.pnum, e.start_time, e.end_time from employee as e";
         String queryCon = " where e.emp_id=e.emp_id";
-        if(start!=null) queryCon = queryCon.concat(" and start_time="+start);
-        if(end!=null) queryCon = queryCon.concat(" and end_time="+end);
+        if(start!=null) queryCon = queryCon.concat(" and start_time='"+start+"'");
+        if(end!=null) queryCon = queryCon.concat(" and end_time='"+end+"'");
         if(class_name!=null){
             queryfrom = queryfrom.concat(", conducts as c, class as cs");
             queryCon = queryCon.concat(" and e.emp_id=c.emp_id and cs.class_id = c.class_id and cs.name='"+class_name+"'");

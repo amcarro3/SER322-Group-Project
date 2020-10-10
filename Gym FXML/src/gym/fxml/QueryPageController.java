@@ -675,7 +675,7 @@ public class QueryPageController extends Controller implements Initializable {
                 error("Please enter a 10 digit number for the Phone number");
                 return;
             }
-            if((start.matches("\\d{2}:\\d{2}:\\d{2}")&&end.matches("\\d{2}:\\d{2}:\\d{2}"))){
+            if(!(start.matches("\\d{2}:\\d{2}:\\d{2}")&&end.matches("\\d{2}:\\d{2}:\\d{2}"))){
                 error("Please enter the start and end times as HH:MM:SS");
                 return;
             }
